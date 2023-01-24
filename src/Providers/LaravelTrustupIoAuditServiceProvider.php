@@ -1,10 +1,10 @@
 <?php
-namespace Henrotaym\VersioningPackageTemplate\Providers;
+namespace Deegitalbe\LaravelTrustupIoAudit\Providers;
 
-use Henrotaym\VersioningPackageTemplate\Package;
+use Deegitalbe\LaravelTrustupIoAudit\Package;
 use Henrotaym\LaravelPackageVersioning\Providers\Abstracts\VersionablePackageServiceProvider;
 
-class VersioningPackageTemplateServiceProvider extends VersionablePackageServiceProvider
+class LaravelTrustupIoAuditServiceProvider extends VersionablePackageServiceProvider
 {
     public static function getPackageClass(): string
     {

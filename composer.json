@@ -1,12 +1,16 @@
 {
-    "name": "henrotaym/versioning-package-template",
-    "description": "Basic versioned php package.",
+    "name": "deegitalbe/laravel-trustup-io-audit",
+    "description": "Our package handling audit log creation.",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
             "name": "Mathieu Henrotay",
             "email": "mathieu.henrotay@gmail.com"
+        },
+        {
+            "name": "Pierre Wasilewski",
+            "email": "pierre.wasilewski@trustup.be"
         }
     ],
     "require": {
@@ -18,18 +22,18 @@
     },
     "autoload": {
         "psr-4": {
-            "Henrotaym\\VersioningPackageTemplate\\": "src"
+            "Deegitalbe\\LaravelTrustupIoAudit\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Henrotaym\\VersioningPackageTemplate\\Tests\\": "tests"
+            "Deegitalbe\\LaravelTrustupIoAudit\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Henrotaym\\VersioningPackageTemplate\\Providers\\VersioningPackageTemplateServiceProvider"
+                "Deegitalbe\\LaravelTrustupIoAudit\\Providers\\LaravelTrustupIoAuditServiceProvider"
             ]
         }
     }
