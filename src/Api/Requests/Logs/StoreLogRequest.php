@@ -160,18 +160,18 @@ class StoreLogRequest implements StoreLogRequestContract
         return $this->impersonatedBy;
     }
 
-    public function setLogRequest(array $attribuutes): self
+    public function setLogRequest(array $attributes): self
     {
-        $this->setResponsibleId($attribuutes["responsible_id"]);
-        $this->setResponsibleType($attribuutes["responsible_type"]);
-        $this->setAppKey($attribuutes["app_key"]);
-        $this->setModelId($attribuutes["model_id"]);
-        $this->setModelType($attribuutes["model_type"]);
-        $this->setPayload(json_decode($attribuutes["payload"], true));
-        $this->setAccountUuid($attribuutes["account_uuid"]);
-        $this->setEventName($attribuutes["event_name"]);
-        $this->setLoggedAt($this->parseToCarbon($attribuutes["logged_at"]));
-        $this->setImpersonatedBy($attribuutes["impersonated_by"]);
+        $this->setResponsibleId($attributes["responsible_id"]);
+        $this->setResponsibleType($attributes["responsible_type"]);
+        $this->setAppKey($attributes["app_key"]);
+        $this->setModelId($attributes["model_id"]);
+        $this->setModelType($attributes["model_type"]);
+        $this->setPayload(json_decode($attributes["payload"], true));
+        $this->setAccountUuid($attributes["account_uuid"]);
+        $this->setEventName($attributes["event_name"]);
+        $this->setLoggedAt($this->parseToCarbon($attributes["logged_at"]));
+        $this->setImpersonatedBy($attributes["impersonated_by"]);
         return $this;
     }
     protected function parseToCarbon(string $date): Carbon
