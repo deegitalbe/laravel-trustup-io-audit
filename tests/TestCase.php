@@ -3,6 +3,7 @@
 namespace Deegitalbe\LaravelTrustupIoAudit\Tests;
 
 use Deegitalbe\LaravelTrustupIoAudit\Package;
+use Henrotaym\LaravelApiClient\Providers\ClientServiceProvider;
 use Henrotaym\LaravelPackageVersioning\Testing\VersionablePackageTestCase;
 use Deegitalbe\LaravelTrustupIoAudit\Providers\LaravelTrustupIoAuditServiceProvider;
 
@@ -16,7 +17,8 @@ class TestCase extends VersionablePackageTestCase
     public function getServiceProviders(): array
     {
         return [
-            LaravelTrustupIoAuditServiceProvider::class
+            LaravelTrustupIoAuditServiceProvider::class,
+            ClientServiceProvider::class
         ];
     }
 }
