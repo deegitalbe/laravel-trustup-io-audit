@@ -4,7 +4,7 @@ namespace Deegitalbe\LaravelTrustupIoAudit\Api\Requests\Logs;
 
 use Carbon\Carbon;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
-use Illuminate\Contracts\Support\Arrayable;
+
 
 class StoreLogRequest implements StoreLogRequestContract
 {
@@ -14,7 +14,7 @@ class StoreLogRequest implements StoreLogRequestContract
 
     protected ?string $appKey;
 
-    protected ?int $modelId;
+    protected ?string $modelId;
 
     protected ?string $modelType;
 
@@ -157,33 +157,41 @@ class StoreLogRequest implements StoreLogRequestContract
 
     public function getImpersonatedBy(): ?string
     {
-        return $this->imporsonatedBy;
+        return $this->impersonatedBy;
     }
 
-    public function toArray()
+    public function setLogRequest(array $attribuutes): self
     {
-        return [];
-    }
-
-    public function setLogRequest($log): self
-    {
-        dd($log);
-
-        $this->setResponsibleId($log["responsible_id"]);
-        $this->setResponsibleType($log["responsible_type"]);
-        $this->setAppKey($log["app_key"]);
-        $this->setModelId($log["model_id"]);
-        $this->setModelType($log["model_type"]);
-        $this->setPayload(json_decode($log["payload"], true));
-        $this->setAccountUuid($log["account_uuid"]);
-        $this->setEventName($log["event_name"]);
-        $this->setLoggedAt($this->parseToCarbon($log["logged_at"]));
-        $this->setImpersonatedBy($log["impersonated_by"]);
+        $this->setResponsibleId($attribuutes["responsible_id"]);
+        $this->setResponsibleType($attribuutes["responsible_type"]);
+        $this->setAppKey($attribuutes["app_key"]);
+        $this->setModelId($attribuutes["model_id"]);
+        $this->setModelType($attribuutes["model_type"]);
+        $this->setPayload(json_decode($attribuutes["payload"], true));
+        $this->setAccountUuid($attribuutes["account_uuid"]);
+        $this->setEventName($attribuutes["event_name"]);
+        $this->setLoggedAt($this->parseToCarbon($attribuutes["logged_at"]));
+        $this->setImpersonatedBy($attribuutes["impersonated_by"]);
         return $this;
     }
-
     protected function parseToCarbon(string $date): Carbon
     {
         return Carbon::parse($date);
+    }
+
+    public function toArray(): array
+    {
+        return [
+            "responsible_id" => $this->responsibleId,
+            "responsible_type" => $this->responsibleType,
+            "app_key" => $this->appKey,
+            "model_id" => $this->modelId,
+            "model_type" => $this->modelType,
+            "payload" => $this->payload,
+            "account_uuid" => $this->accountUuid,
+            "event_name" => $this->eventName,
+            "logged_at" => $this->loggedAt,
+            "impersonated_by" => $this->impersonatedBy,
+        ];
     }
 }

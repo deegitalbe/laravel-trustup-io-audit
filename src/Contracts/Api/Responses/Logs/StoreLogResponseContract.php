@@ -1,5 +1,6 @@
 <?php
-namespace Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs;
+
+namespace Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs;
 
 use Henrotaym\LaravelApiClient\Contracts\ResponseContract;
 

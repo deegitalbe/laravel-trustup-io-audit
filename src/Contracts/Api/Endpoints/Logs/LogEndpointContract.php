@@ -3,7 +3,7 @@
 namespace Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs;
 
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogResponseContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\StoreLogResponseContract;
 
 interface LogEndpointContract
 {

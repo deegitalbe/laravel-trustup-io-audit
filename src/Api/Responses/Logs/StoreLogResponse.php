@@ -3,7 +3,7 @@
 namespace Deegitalbe\LaravelTrustupIoAudit\Api\Responses\Logs;
 
 use Henrotaym\LaravelApiClient\Contracts\ResponseContract;
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogResponseContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\StoreLogResponseContract;
 
 class StoreLogResponse implements StoreLogResponseContract
 {
