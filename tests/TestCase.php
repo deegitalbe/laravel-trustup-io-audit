@@ -1,4 +1,5 @@
 <?php
+
 namespace Deegitalbe\LaravelTrustupIoAudit\Tests;
 
 use Deegitalbe\LaravelTrustupIoAudit\Package;
@@ -11,7 +12,7 @@ class TestCase extends VersionablePackageTestCase
     {
         return Package::class;
     }
-    
+
     public function getServiceProviders(): array
     {
         return [
