@@ -13,6 +13,6 @@ class InstallingPackageTest extends TestCase
 
     public function test_it_can_instanciate_service_provider()
     {
-        dd($this->app->make(LogEndpointContract::class));
+        $this->assertInstanceOf(LogEndpointContract::class, $this->app->make(LogEndpointContract::class));
     }
 }

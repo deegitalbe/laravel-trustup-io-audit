@@ -16,13 +16,8 @@ class LogEndpoint implements LogEndpointContract
         /** @var RequestContract */
         $request = app()->make(RequestContract::class);
 
-        $request->setVerb('POST')
-            ->setUrl('logs')
-            ->addData($storeRequest->toArray());
-
-        $response = $this->client->try($request, "lkfsdjqflkqjs");
-
         // ... continue here
-        return app()->make(StoreLogResponseContract::class)->setResponse($response);
+
+        return app()->make(StoreLogResponseContract::class);
     }
 }
