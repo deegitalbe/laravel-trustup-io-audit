@@ -1,4 +1,5 @@
 <?php
+
 namespace Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs;
 
 use Carbon\Carbon;
