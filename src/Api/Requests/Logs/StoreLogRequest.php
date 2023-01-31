@@ -160,7 +160,7 @@ class StoreLogRequest implements StoreLogRequestContract
         return $this->impersonatedBy;
     }
 
-    public function setLogRequest(array $attributes): self
+    public function fromArray(array $attributes): self
     {
         $this->setResponsibleId($attributes["responsible_id"]);
         $this->setResponsibleType($attributes["responsible_type"]);
