@@ -2,7 +2,7 @@
 namespace Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs;
 
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\StoreLogResponseContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\Adapters\LogServiceAdapterContract;
 
@@ -16,6 +16,12 @@ interface LogServiceContract
     // instanciated in constructor
     public function getEndpoint(): LogEndpointContract;
 
-    // using endpoint
-    public function store(TrustupIoAuditRelatedModelContract $model, string $eventName): StoreLogResponseContract;
+    // using storeRequest
+    public function storeModel(string $eventName, TrustupIoAuditRelatedModelContract $model): ?string;
+
+    // using storeRequest
+    public function storeAttributes(string $eventName, array $attributes): ?string;
+    
+    // dispatch job that triggers endpoint.
+    public function storeRequest(StoreLogRequestContract $request): ?string;
 }

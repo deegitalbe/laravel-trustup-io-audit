@@ -4,7 +4,7 @@ namespace Deegitalbe\LaravelTrustupIoAudit\Contracts\Models;
 
 interface TrustupIoAuditRelatedModelContract
 {
-    public function getTrustupIoAuditData(): array;
+    public function getTrustupIoAuditPayload(): array;
 
     public function getTrustupIoAuditModelType(): string;
 

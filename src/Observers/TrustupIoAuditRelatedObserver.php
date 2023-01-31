@@ -2,7 +2,6 @@
  
 namespace Deegitalbe\LaravelTrustupIoAudit\Observers;
  
-use App\Models\User;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 
 // Use log service to store audit log based on given model

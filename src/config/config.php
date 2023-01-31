@@ -2,5 +2,6 @@
 
 return [
     /** your adapter should implement LogAdapterContract */
-    'adapter' => "xxxxxxx"
+    'adapter' => CustomAdapter::class,
+    'app_key' => env("TRUSTUP_APP_KEY")
 ];

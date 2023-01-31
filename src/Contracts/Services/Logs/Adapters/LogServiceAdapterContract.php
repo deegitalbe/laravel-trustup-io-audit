@@ -9,7 +9,7 @@ interface LogServiceAdapterContract
 
     public function getResponsibleType(): string;
 
-    public function getAccountUuid(): string;
+    public function getAccountUuid(): ?string;
 
-    public function getImpersonatedBy(): string;
+    public function getImpersonatedBy(): ?string;
 }
