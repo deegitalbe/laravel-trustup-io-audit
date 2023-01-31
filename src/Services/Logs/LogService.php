@@ -58,6 +58,10 @@ class LogService implements LogServiceContract
     // using storeRequest
     public function storeAttributes(string $eventName, array $attributes): ?string
     {
+        /** @var StoreLogRequest */
+        $request = app()->make(StoreLogRequest::class);
+        $request->setEventName($eventName)->fromArray($attributes);
+        return  $this->storeRequest($request);
     }
 
     // dispatch job that triggers endpoint.
