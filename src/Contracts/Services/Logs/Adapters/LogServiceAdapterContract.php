@@ -1,4 +1,5 @@
 <?php
+
 namespace Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\Adapters;
 
 interface LogServiceAdapterContract

@@ -1,4 +1,5 @@
 <?php
+
 namespace Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs;
 
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
@@ -21,7 +22,7 @@ interface LogServiceContract
 
     // using storeRequest
     public function storeAttributes(string $eventName, array $attributes): ?string;
-    
+
     // dispatch job that triggers endpoint.
     public function storeRequest(StoreLogRequestContract $request): ?string;
 }
