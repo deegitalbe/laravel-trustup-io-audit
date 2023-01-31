@@ -23,6 +23,6 @@ class StoreLogResponse implements StoreLogResponseContract
 
     public function getUuid(): ?string
     {
-        return $this->uuid;
+        return $this->response->get()->log_uuid;
     }
 }

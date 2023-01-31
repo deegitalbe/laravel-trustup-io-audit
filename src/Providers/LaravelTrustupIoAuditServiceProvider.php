@@ -27,6 +27,5 @@ class LaravelTrustupIoAuditServiceProvider extends VersionablePackageServiceProv
 
     protected function addToBoot(): void
     {
-        //
     }
 }
