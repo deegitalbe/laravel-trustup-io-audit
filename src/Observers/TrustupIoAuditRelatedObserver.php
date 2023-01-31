@@ -1,12 +1,21 @@
 <?php
- 
+
 namespace Deegitalbe\LaravelTrustupIoAudit\Observers;
- 
+
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
+use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogService;
 
 // Use log service to store audit log based on given model
 class TrustupIoAuditRelatedObserver
 {
+
+    /** @var  LogService*/
+    protected LogService $service;
+
+    public function __construct(LogService $service)
+    {
+        $this->service = $service;
+    }
     /**
      * Handle the User "created" event.
      *
@@ -15,9 +24,9 @@ class TrustupIoAuditRelatedObserver
      */
     public function created(TrustupIoAuditRelatedModelContract $model)
     {
-        //
+        $this->service->storeModel('created', $model);
     }
- 
+
     /**
      * Handle the User "updated" event.
      *
@@ -26,9 +35,9 @@ class TrustupIoAuditRelatedObserver
      */
     public function updated(TrustupIoAuditRelatedModelContract $model)
     {
-        //
+        $this->service->storeModel('updated', $model);
     }
- 
+
     /**
      * Handle the User "deleted" event.
      *
@@ -37,9 +46,9 @@ class TrustupIoAuditRelatedObserver
      */
     public function deleted(TrustupIoAuditRelatedModelContract $model)
     {
-        //
+        $this->service->storeModel('deleted', $model);
     }
- 
+
     /**
      * Handle the User "restored" event.
      *
@@ -48,9 +57,9 @@ class TrustupIoAuditRelatedObserver
      */
     public function restored(TrustupIoAuditRelatedModelContract $model)
     {
-        //
+        $this->service->storeModel('restored', $model);
     }
- 
+
     /**
      * Handle the User "forceDeleted" event.
      *
@@ -59,6 +68,6 @@ class TrustupIoAuditRelatedObserver
      */
     public function forceDeleted(TrustupIoAuditRelatedModelContract $model)
     {
-        //
+        $this->service->storeModel('forceDeleted', $model);
     }
 }
