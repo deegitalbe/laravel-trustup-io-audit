@@ -169,7 +169,6 @@ class StoreLogRequest implements StoreLogRequestContract
         $this->setModelType($attributes["model_type"]);
         $this->setPayload(json_decode($attributes["payload"], true));
         $this->setAccountUuid($attributes["account_uuid"]);
-        $this->setEventName($attributes["event_name"]);
         $this->setLoggedAt($this->parseToCarbon($attributes["logged_at"]));
         $this->setImpersonatedBy($attributes["impersonated_by"]);
         return $this;
