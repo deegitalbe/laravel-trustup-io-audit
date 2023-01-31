@@ -1,3 +1,6 @@
 <?php
 
-return [];
+return [
+    /** your adapter should implement LogAdapterContract */
+    'adapter' => "xxxxxxx"
+];

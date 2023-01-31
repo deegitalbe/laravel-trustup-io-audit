@@ -2,7 +2,7 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Contracts\Models;
 
-class TrustupIoAuditRelated implements TrustupIoAuditRelatedContract
+class TrustupIoAuditRelated implements TrustupIoAuditRelatedModelContract
 {
     public function getTrustupIoAuditData(): array
     {
