@@ -12,13 +12,7 @@ use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\Adapters\LogService
 
 class LogService implements LogServiceContract
 {
-    /** @var  LogServiceAdapter*/
-    protected LogServiceAdapter $adapter;
-
-    /** @var  LogEndpointContract*/
-    protected LogEndpointContract $endpoint;
-
-    public function __construct(LogServiceAdapterContract $adapter, LogEndpointContract $endpoint)
+    public function __construct(protected LogServiceAdapterContract $adapter, protected  LogEndpointContract $endpoint)
     {
         $this->adapter = $adapter;
         $this->endpoint = $endpoint;
@@ -37,11 +31,11 @@ class LogService implements LogServiceContract
     // based on config this class should be binded in your service provider
     // instanciated in constructor
 
-    // using storeRequest
     public function storeModel(string $eventName, TrustupIoAuditRelatedModelContract $model): ?string
     {
         /** @var StoreLogRequest */
         $request = app()->make(StoreLogRequest::class);
+
         $request->setEventName($eventName)
             ->setPayload($model->getTrustupIoAuditPayload())
             ->setModelId($model->getTrustupIoAuditModelId())
@@ -55,12 +49,14 @@ class LogService implements LogServiceContract
         return  $this->storeRequest($request);
     }
 
-    // using storeRequest
+
     public function storeAttributes(string $eventName, array $attributes): ?string
     {
         /** @var StoreLogRequest */
         $request = app()->make(StoreLogRequest::class);
+
         $request->setEventName($eventName)->fromArray($attributes);
+
         return  $this->storeRequest($request);
     }
 

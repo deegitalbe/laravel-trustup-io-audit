@@ -9,13 +9,13 @@ use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogService;
 class TrustupIoAuditRelatedObserver
 {
 
-    /** @var  LogService*/
-    protected LogService $service;
 
-    public function __construct(LogService $service)
+
+    public function __construct(protected LogService $service)
     {
         $this->service = $service;
     }
+
     /**
      * Handle the User "created" event.
      *

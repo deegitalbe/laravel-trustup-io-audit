@@ -2,6 +2,7 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Models;
 
+
 use Deegitalbe\LaravelTrustupIoAudit\Observers\TrustupIoAuditRelatedObserver;
 use Illuminate\Support\Str;
 
