@@ -11,6 +11,7 @@ use Deegitalbe\LaravelTrustupIoAudit\Api\Responses\Logs\StoreLogResponse;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\StoreLogResponseContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\Adapters\LogServiceAdapterContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
 use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\Adapters\LogServiceAdapter;
 use Henrotaym\LaravelPackageVersioning\Providers\Abstracts\VersionablePackageServiceProvider;
@@ -28,8 +29,8 @@ class LaravelTrustupIoAuditServiceProvider extends VersionablePackageServiceProv
 		$this->app->bind(LogEndpointContract::class, LogEndpoint::class);
 		$this->app->bind(StoreLogResponseContract::class, StoreLogResponse::class);
 		$this->app->bind(StoreLogRequestContract::class, StoreLogRequest::class);
-		$this->app->bind(LogService::class, LogServiceContract::class);
-		$this->app->bind(LogServiceAdapter::class, Package::getConfig('adapter'));
+		$this->app->bind(LogServiceAdapterContract::class, LogServiceAdapter::class);
+		$this->app->bind(LogServiceContract::class, LogService::class);
 	}
 
 	protected function addToBoot(): void

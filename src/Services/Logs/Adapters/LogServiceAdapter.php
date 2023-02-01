@@ -9,7 +9,7 @@ class LogServiceAdapter implements LogServiceAdapterContract
 
     public function getAppKey(): string
     {
-        return config("TRUSTUP_APP_KEY");
+        return env("TRUSTUP_APP_KEY");
     }
 
     public function getResponsibleId(): string

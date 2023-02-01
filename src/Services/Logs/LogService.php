@@ -2,6 +2,7 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Services\Logs;
 
+use Deegitalbe\LaravelTrustupIoAudit\Jobs\CallLogEndpoint;
 use Deegitalbe\LaravelTrustupIoAudit\Api\Requests\Logs\StoreLogRequest;
 use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\Adapters\LogServiceAdapter;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
@@ -42,7 +43,7 @@ class LogService implements LogServiceContract
             ->setModelType($model->getTrustupIoAuditModelType())
             ->setResponsibleId($this->adapter->getResponsibleId())
             ->setResponsibleType($this->adapter->getResponsibleType())
-            ->setAppKey($this->adapter->getAppKey())
+            ->setAppKey($this->adapter->getAppKey())->setLoggedAt()
             ->setAccountUuid($this->adapter->getAccountUuid())
             ->setImpersonatedBy($this->adapter->getImpersonatedBy());
 
@@ -55,14 +56,15 @@ class LogService implements LogServiceContract
         /** @var StoreLogRequest */
         $request = app()->make(StoreLogRequest::class);
 
-        $request->setEventName($eventName)->fromArray($attributes);
+        $request->setEventName($eventName)->setLoggedAt()->fromArray($attributes);
 
         return  $this->storeRequest($request);
     }
 
-    // dispatch job that triggers endpoint.
+    // dispatch job that triggers endpoint. // TODO
     public function storeRequest(StoreLogRequestContract $request): ?string
     {
-        return $this->endpoint->store($request)->getUuid();
+        dd($request);
+        return  CallLogEndpoint::dispatch($this->endpoint, $request)->getUuid();
     }
 }

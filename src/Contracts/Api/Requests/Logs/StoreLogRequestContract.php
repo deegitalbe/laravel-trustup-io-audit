@@ -40,6 +40,11 @@ interface StoreLogRequestContract extends Arrayable
     /** @return static */
     public function setCrypKeys(array $cryptKeys): StoreLogRequestContract;
 
+    /** @return static */
+    public function setUuid(?string $responsibleId): StoreLogRequestContract;
+
+    public function getUuid(): ?string;
+
     public function getResponsibleId(): ?string;
 
     public function getResponsibleType(): ?string;

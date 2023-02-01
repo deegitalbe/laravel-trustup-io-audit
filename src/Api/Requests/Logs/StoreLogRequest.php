@@ -92,7 +92,7 @@ class StoreLogRequest implements StoreLogRequestContract
     /** @return static */
     public function setLoggedAt(?Carbon $loggedAt = null): StoreLogRequestContract
     {
-        $this->loggedAt = $loggedAt;
+        $this->loggedAt =  $loggedAt ??  Carbon::now();
         return $this;
     }
 
@@ -109,6 +109,18 @@ class StoreLogRequest implements StoreLogRequestContract
         $this->cryptKeys = $cryptKeys;
         return $this;
     }
+
+    public function setUuid(?string $uuid): StoreLogRequestContract
+    {
+        $this->uuid = $uuid;
+    }
+
+
+    public function getUuid(): ?string
+    {
+        return $this->uuid;
+    }
+
 
     public function getResponsibleId(): ?string
     {
@@ -169,7 +181,6 @@ class StoreLogRequest implements StoreLogRequestContract
         $this->setModelType($attributes["model_type"]);
         $this->setPayload(json_decode($attributes["payload"], true));
         $this->setAccountUuid($attributes["account_uuid"]);
-        $this->setLoggedAt($this->parseToCarbon($attributes["logged_at"]));
         $this->setImpersonatedBy($attributes["impersonated_by"]);
         return $this;
     }
