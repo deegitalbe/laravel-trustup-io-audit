@@ -237,4 +237,27 @@ class StoreLogRequestTest extends TestCase
         $this->setPrivateProperty('impersonatedBy', $str, $model);
         $this->assertEquals($str, $model->getImpersonatedBy());
     }
+
+    public function test_it_can_set__request_uuid()
+    {
+        $str = "3";
+        $model = app()->make(StoreLogRequestContract::class);
+        $this->assertEquals($model, $model->setUuid($str));
+        $this->assertEquals($str, $this->getPrivateProperty('uuid', $model));
+    }
+
+    public function test_it_can_get__request_ruuid()
+    {
+
+        $model = app()->make(StoreLogRequestContract::class);
+        $this->assertEquals(
+            $model->getUuid(),
+            $model->getUuid()
+        );
+    }
+    public function test_that_uuid_is_returned_even_if_not_defined()
+    {
+        $model = app()->make(StoreLogRequestContract::class);
+        $this->assertTrue(is_string($model->getUuid()));
+    }
 }

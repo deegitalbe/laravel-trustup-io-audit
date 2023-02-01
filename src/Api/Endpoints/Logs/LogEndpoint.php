@@ -22,10 +22,13 @@ class LogEndpoint implements LogEndpointContract
 
     public function store(StoreLogRequestContract $storeRequest): StoreLogResponseContract
     {
+        dump($storeRequest->getUuid());
         /** @var RequestContract */
         $request = app()->make(RequestContract::class);
         $request->setVerb("POST")->setUrl("logs")->addData($storeRequest->toArray());
         $response = $this->client->try($request, "Cannot store log");
+        // if ($response->error()) dd($response->error()->context());
+        // dd($response->response());
         /** @var StoreLogResponseContract */
         return app()->make(StoreLogResponseContract::class)->setResponse($response->response());
     }

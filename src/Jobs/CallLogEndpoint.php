@@ -2,6 +2,8 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Jobs;
 
+use Deegitalbe\LaravelTrustupIoAudit\Api\Requests\Logs\StoreLogRequest;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,7 +19,7 @@ class CallLogEndpoint implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(protected $endpoint, protected $request)
+    public function __construct(protected LogEndpointContract $endpoint, protected StoreLogRequest  $request)
     {
         $this->endpoint = $endpoint;
         $this->request = $request;

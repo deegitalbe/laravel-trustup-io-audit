@@ -3,6 +3,7 @@
 namespace Deegitalbe\LaravelTrustupIoAudit\Api\Requests\Logs;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
 
 
@@ -22,7 +23,7 @@ class StoreLogRequest implements StoreLogRequestContract
 
     protected ?string $accountUuid;
 
-    protected ?string $eventName;
+    protected string $eventName;
 
     protected Carbon $loggedAt;
 
@@ -31,6 +32,9 @@ class StoreLogRequest implements StoreLogRequestContract
     protected ?string $imporsonatedBy;
 
     protected array $cryptKeys;
+
+    protected string $uuid;
+
 
 
     /** @return static */
@@ -113,12 +117,13 @@ class StoreLogRequest implements StoreLogRequestContract
     public function setUuid(?string $uuid): StoreLogRequestContract
     {
         $this->uuid = $uuid;
+        return $this;
     }
 
 
-    public function getUuid(): ?string
+    public function getUuid(): string
     {
-        return $this->uuid;
+        return $this->uuid ?? $this->uuid = Str::uuid();
     }
 
 
@@ -157,7 +162,7 @@ class StoreLogRequest implements StoreLogRequestContract
         return $this->accountUuid;
     }
 
-    public function getEventName(): ?string
+    public function getEventName(): string
     {
         return $this->eventName;
     }
@@ -174,14 +179,15 @@ class StoreLogRequest implements StoreLogRequestContract
 
     public function fromArray(array $attributes): self
     {
-        $this->setResponsibleId($attributes["responsible_id"]);
-        $this->setResponsibleType($attributes["responsible_type"]);
-        $this->setAppKey($attributes["app_key"]);
-        $this->setModelId($attributes["model_id"]);
-        $this->setModelType($attributes["model_type"]);
+        $this->setResponsibleId($attributes["responsible_id"] ?? null);
+        $this->setResponsibleType($attributes["responsible_type"] ?? null);
+        $this->setAppKey($attributes["app_key"] ?? null);
+        $this->setModelId($attributes["model_id"] ?? null);
+        $this->setModelType($attributes["model_type"] ?? null);
         $this->setPayload(json_decode($attributes["payload"], true));
-        $this->setAccountUuid($attributes["account_uuid"]);
-        $this->setImpersonatedBy($attributes["impersonated_by"]);
+        $this->setLoggedAt($attributes["logged_at"] ?? null);
+        $this->setAccountUuid($attributes["account_uuid"] ?? null);
+        $this->setImpersonatedBy($attributes["impersonated_by"] ?? null);
         return $this;
     }
     protected function parseToCarbon(string $date): Carbon
@@ -192,16 +198,17 @@ class StoreLogRequest implements StoreLogRequestContract
     public function toArray(): array
     {
         return [
-            "responsible_id" => $this->responsibleId,
-            "responsible_type" => $this->responsibleType,
-            "app_key" => $this->appKey,
-            "model_id" => $this->modelId,
-            "model_type" => $this->modelType,
-            "payload" => $this->payload,
-            "account_uuid" => $this->accountUuid,
-            "event_name" => $this->eventName,
-            "logged_at" => $this->loggedAt,
-            "impersonated_by" => $this->impersonatedBy,
+            "uuid" => $this->getUuid(),
+            "responsible_id" => $this->getResponsibleId(),
+            "responsible_type" => $this->getResponsibleType(),
+            "app_key" => $this->getAppKey(),
+            "model_id" => $this->getModelId(),
+            "model_type" => $this->getModelType(),
+            "payload" => $this->getPayload(),
+            "account_uuid" => $this->getAccountUuid(),
+            "event_name" => $this->getEventName(),
+            "logged_at" => $this->getLoggedAt(),
+            "impersonated_by" => $this->getImpersonatedBy(),
         ];
     }
 }

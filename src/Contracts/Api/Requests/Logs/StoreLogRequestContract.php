@@ -41,9 +41,9 @@ interface StoreLogRequestContract extends Arrayable
     public function setCrypKeys(array $cryptKeys): StoreLogRequestContract;
 
     /** @return static */
-    public function setUuid(?string $responsibleId): StoreLogRequestContract;
+    public function setUuid(?string $uuid): StoreLogRequestContract;
 
-    public function getUuid(): ?string;
+    public function getUuid(): string;
 
     public function getResponsibleId(): ?string;
 
@@ -59,7 +59,7 @@ interface StoreLogRequestContract extends Arrayable
 
     public function getAccountUuid(): ?string;
 
-    public function getEventName(): ?string;
+    public function getEventName(): string;
 
     public function getLoggedAt(): Carbon;
 
