@@ -2,13 +2,14 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Services\Logs\Adapters;
 
+use config;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\Adapters\LogServiceAdapterContract;
 
 class LogServiceAdapter implements LogServiceAdapterContract
 {
     public function getAppKey(): string
     {
-        return config("app_key");
+        return env("TRUSTUP_APP_KEY");
     }
 
     public function getResponsibleId(): string

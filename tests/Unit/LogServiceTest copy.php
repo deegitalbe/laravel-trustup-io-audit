@@ -89,13 +89,6 @@ class LogServiceTest extends TestCase
     {
         $str = "2";
         $eventName = "test_event";
-        // /** @var LogService */
-        // $model = app()->make(LogService::class);
-        // /** @var StoreLogRequest */
-        // $request = app()->make(StoreLogRequest::class);
-        // $logServiceContract = $this->mockLogServiceContract();
-        // $this->setPrivateProperty('adapter', $logServiceAdapater, $logService);
-        // $this->setPrivateProperty('endpoint', $endpoint, $logService);
 
         $logService = $this->mockLogService();
         $request = $this->mockLogStoreLogRequest();

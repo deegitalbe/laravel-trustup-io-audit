@@ -7,8 +7,8 @@ use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\StoreLogRespon
 
 class StoreLogResponse implements StoreLogResponseContract
 {
-    public string $uuid;
-    public ResponseContract $response;
+    protected string $uuid;
+    protected ResponseContract $response;
 
     public function getResponse(): ResponseContract
     {
@@ -23,6 +23,6 @@ class StoreLogResponse implements StoreLogResponseContract
 
     public function getUuid(): ?string
     {
-        return $this->response->get()->log_uuid;
+        return $this->getResponse()->get();
     }
 }

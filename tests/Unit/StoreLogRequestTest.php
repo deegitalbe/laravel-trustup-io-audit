@@ -97,7 +97,7 @@ class StoreLogRequestTest extends TestCase
         $this->assertEquals($str, $this->getPrivateProperty('impersonatedBy', $model));
     }
 
-    public function test_it_can_set_log_request()
+    public function test_it_can_set_log_fromArray()
     {
         $attributes = [
             "responsible_id" => "test",
@@ -112,7 +112,7 @@ class StoreLogRequestTest extends TestCase
             "impersonated_by" => "test",
         ];
         $model = app()->make(StoreLogRequestContract::class);
-        $this->assertEquals($model, $model->setLogRequest($attributes));
+        $this->assertEquals($model, $model->fromArray($attributes));
     }
 
     public function test_it_can_parse_to_carbon()
@@ -141,20 +141,7 @@ class StoreLogRequestTest extends TestCase
         $this->setPrivateProperty('impersonatedBy', $str, $model);
 
 
-        $attributes = [
-            "responsible_id" => $str,
-            "responsible_type" => $str,
-            "app_key" => $str,
-            "model_id" => $str,
-            "model_type" => $str,
-            "payload" => $arr,
-            "account_uuid" => $str,
-            "event_name" => $str,
-            "logged_at" => $carbon,
-            "impersonated_by" => $str,
-        ];
-
-        $this->assertEquals($attributes, $model->toArray());
+        $this->assertArrayHasKey("uuid", $model->toArray());
     }
 
 

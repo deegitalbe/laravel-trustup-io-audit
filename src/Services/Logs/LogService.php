@@ -62,7 +62,7 @@ class LogService implements LogServiceContract
         return  $this->storeRequest($request);
     }
 
-    // dispatch job that triggers endpoint. // TODO
+    // dispatch job that triggers endpoint.
     public function storeRequest(StoreLogRequestContract $request): ?string
     {
         CallLogEndpoint::dispatch($this->getEndpoint(), $request);
