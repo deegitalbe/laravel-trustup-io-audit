@@ -6,10 +6,9 @@ use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\Adapters\LogService
 
 class LogServiceAdapter implements LogServiceAdapterContract
 {
-
     public function getAppKey(): string
     {
-        return env("TRUSTUP_APP_KEY");
+        return config("app_key");
     }
 
     public function getResponsibleId(): string
