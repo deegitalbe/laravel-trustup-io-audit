@@ -16,9 +16,27 @@ class TestCase extends VersionablePackageTestCase
 
     public function getServiceProviders(): array
     {
+
         return [
             LaravelTrustupIoAuditServiceProvider::class,
-            ClientServiceProvider::class
+            ClientServiceProvider::class,
         ];
+    }
+
+    public function defineDatabaseMigrations()
+    {
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+    }
+
+    protected function getEnvironmentSetUp($app)
+    {
+        # Setup default database to use sqlite :memory:
+        $app['config']->set('database.default', 'testbench');
+        $app['config']->set('database.connections.testbench', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ]);
     }
 }

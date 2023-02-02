@@ -45,6 +45,7 @@ class LogService implements LogServiceContract
             ->setResponsibleType($this->getAdapter()->getResponsibleType())
             ->setAppKey($this->getAdapter()->getAppKey())
             ->setAccountUuid($this->getAdapter()->getAccountUuid())
+            ->setLoggedAt()
             ->setImpersonatedBy($this->getAdapter()->getImpersonatedBy());
 
         return  $this->storeRequest($request);
