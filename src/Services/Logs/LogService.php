@@ -41,11 +41,11 @@ class LogService implements LogServiceContract
             ->setPayload($model->getTrustupIoAuditPayload())
             ->setModelId($model->getTrustupIoAuditModelId())
             ->setModelType($model->getTrustupIoAuditModelType())
-            ->setResponsibleId($this->adapter->getResponsibleId())
-            ->setResponsibleType($this->adapter->getResponsibleType())
-            ->setAppKey($this->adapter->getAppKey())->setLoggedAt()
-            ->setAccountUuid($this->adapter->getAccountUuid())
-            ->setImpersonatedBy($this->adapter->getImpersonatedBy());
+            ->setResponsibleId($this->getAdapter()->getResponsibleId())
+            ->setResponsibleType($this->getAdapter()->getResponsibleType())
+            ->setAppKey($this->getAdapter()->getAppKey())
+            ->setAccountUuid($this->getAdapter()->getAccountUuid())
+            ->setImpersonatedBy($this->getAdapter()->getImpersonatedBy());
 
         return  $this->storeRequest($request);
     }
@@ -64,7 +64,7 @@ class LogService implements LogServiceContract
     // dispatch job that triggers endpoint. // TODO
     public function storeRequest(StoreLogRequestContract $request): ?string
     {
-        CallLogEndpoint::dispatch($this->endpoint, $request);
+        CallLogEndpoint::dispatch($this->getEndpoint(), $request);
         return $request->getUuid();
     }
 }

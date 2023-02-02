@@ -5,11 +5,8 @@ namespace Deegitalbe\LaravelTrustupIoAudit\Observers;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogService;
 
-// Use log service to store audit log based on given model
 class TrustupIoAuditRelatedObserver
 {
-
-
 
     public function __construct(protected LogService $service)
     {
