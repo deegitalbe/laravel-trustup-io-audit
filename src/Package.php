@@ -8,6 +8,6 @@ class Package extends VersionablePackage implements PackageContract
 {
     public static function prefix(): string
     {
-        return "versioning_package_template";
+        return "laravel-trustup-io-audit";
     }
 }

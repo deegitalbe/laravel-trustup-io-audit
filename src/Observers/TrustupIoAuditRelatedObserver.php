@@ -2,8 +2,10 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Observers;
 
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogService;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\HasTrustupIoAuditLogRelationContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelWithRelationsContract;
 
 class TrustupIoAuditRelatedObserver
 {
@@ -21,7 +23,12 @@ class TrustupIoAuditRelatedObserver
      */
     public function created(TrustupIoAuditRelatedModelContract $model)
     {
-        $this->service->storeModel('created', $model);
+        $uuid = $this->service->storeModel('created', $model);
+
+        if (!$uuid) return;
+        if (!$model instanceof TrustupIoAuditRelatedModelWithRelationsContract) return;
+
+        $model->trustupIoAuditLogs()->addToRelatedModelsByIds($uuid);
     }
 
     /**
