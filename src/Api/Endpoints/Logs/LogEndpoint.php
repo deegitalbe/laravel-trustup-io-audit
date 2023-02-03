@@ -7,7 +7,9 @@ use Henrotaym\LaravelApiClient\Contracts\ClientContract;
 use Henrotaym\LaravelApiClient\Contracts\RequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Api\Credentials\LogCredential;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\IndexLogRequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\IndexLogResponseContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\StoreLogResponseContract;
 
 class LogEndpoint implements LogEndpointContract
@@ -28,5 +30,12 @@ class LogEndpoint implements LogEndpointContract
         $response = $this->client->try($request, "Cannot store log");
         /** @var StoreLogResponseContract */
         return app()->make(StoreLogResponseContract::class)->setResponse($response->response());
+    }
+
+    public function index(IndexLogRequestContract $request): IndexLogResponseContract
+    {
+
+        /** @var IndexLogResponseContract */
+        return app()->make(IndexLogResponseContract::class)->setResponse($response->response());
     }
 }
