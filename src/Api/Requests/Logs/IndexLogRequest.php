@@ -5,7 +5,7 @@ namespace Deegitalbe\LaravelTrustupIoAudit\Api\Requests\Logs;
 use Illuminate\Support\Collection;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\IndexLogRequestContract;
 
-class IndexLog implements IndexLogRequestContract
+class IndexLogRequest implements IndexLogRequestContract
 {
     /** @var Collection<int, string> */
     protected Collection $uuids;
@@ -16,13 +16,14 @@ class IndexLog implements IndexLogRequestContract
      */
     public function setUuids(Collection $uuids): IndexLogRequestContract
     {
+        $this->uuids = $uuids;
         return $this;
     }
 
     /**
      * @return Collection<int, string>
      */
-    public function getUuids(Collection $uuids): Collection
+    public function getUuids(): Collection
     {
         return $this->uuids;
     }

@@ -6,9 +6,11 @@ use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogService;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\HasTrustupIoAuditLogRelationContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelWithRelationsContract;
+use Illuminate\Database\Eloquent\Model;
 
 class TrustupIoAuditRelatedObserver
 {
+
 
     public function __construct(protected LogService $service)
     {
@@ -24,11 +26,7 @@ class TrustupIoAuditRelatedObserver
     public function created(TrustupIoAuditRelatedModelContract $model)
     {
         $uuid = $this->service->storeModel('created', $model);
-
-        if (!$uuid) return;
-        if (!$model instanceof TrustupIoAuditRelatedModelWithRelationsContract) return;
-
-        $model->trustupIoAuditLogs()->addToRelatedModelsByIds($uuid);
+        $this->addTorelated($uuid, $model);
     }
 
     /**
@@ -39,7 +37,8 @@ class TrustupIoAuditRelatedObserver
      */
     public function updated(TrustupIoAuditRelatedModelContract $model)
     {
-        $this->service->storeModel('updated', $model);
+        $uuid = $this->service->storeModel('updated', $model);
+        $this->addTorelated($uuid, $model);
     }
 
     /**
@@ -50,7 +49,8 @@ class TrustupIoAuditRelatedObserver
      */
     public function deleted(TrustupIoAuditRelatedModelContract $model)
     {
-        $this->service->storeModel('deleted', $model);
+        $uuid = $this->service->storeModel('deleted', $model);
+        $this->addTorelated($uuid, $model);
     }
 
     /**
@@ -61,7 +61,8 @@ class TrustupIoAuditRelatedObserver
      */
     public function restored(TrustupIoAuditRelatedModelContract $model)
     {
-        $this->service->storeModel('restored', $model);
+        $uuid = $this->service->storeModel('restored', $model);
+        $this->addTorelated($uuid, $model);
     }
 
     /**
@@ -72,6 +73,17 @@ class TrustupIoAuditRelatedObserver
      */
     public function forceDeleted(TrustupIoAuditRelatedModelContract $model)
     {
-        $this->service->storeModel('forceDeleted', $model);
+        $uuid = $this->service->storeModel('forceDeleted', $model);
+        $this->addTorelated($uuid, $model);
+    }
+
+
+    protected function addTorelated(string $uuid, TrustupIoAuditRelatedModelContract|Model $model): void
+    {
+        $model::withoutEvents(function () use ($uuid, $model) {
+            if (!$uuid) return;
+            if (!$model instanceof TrustupIoAuditRelatedModelWithRelationsContract) return;
+            $model->trustupIoAuditLogs()->addToRelatedModelsByIds($uuid);
+        });
     }
 }

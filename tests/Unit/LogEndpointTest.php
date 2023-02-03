@@ -7,12 +7,13 @@ use Henrotaym\LaravelTestSuite\TestSuite;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
 use Henrotaym\LaravelApiClient\Contracts\ClientContract;
 use Henrotaym\LaravelApiClient\Contracts\RequestContract;
+use Henrotaym\LaravelApiClient\Contracts\ResponseContract;
 use Henrotaym\LaravelApiClient\Contracts\TryResponseContract;
 use Deegitalbe\LaravelTrustupIoAudit\Api\Endpoints\Logs\LogEndpoint;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\IndexLogRequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\StoreLogResponseContract;
-use Henrotaym\LaravelApiClient\Contracts\ResponseContract;
 
 class LogEndpointTest extends TestCase
 {
@@ -41,6 +42,7 @@ class LogEndpointTest extends TestCase
     }
 
 
+
     /**
      * Mocking StoreLogRequestContract.
      * 
@@ -50,6 +52,17 @@ class LogEndpointTest extends TestCase
     {
         /** @var StoreLogRequestContract */
         return $this->mockThis(StoreLogRequestContract::class);
+    }
+
+    /**
+     * Mocking IndexLogRequestContract.
+     * 
+     * @return IndexLogRequestContract|MockInterface
+     */
+    protected function mockIndexLogRequestContract(): MockInterface
+    {
+        /** @var IndexLogRequestContract */
+        return $this->mockThis(IndexLogRequestContract::class);
     }
 
     public function test_it_can_store_and_return_response()
@@ -76,5 +89,32 @@ class LogEndpointTest extends TestCase
         $client->shouldReceive('try')->once()->with($request, "Cannot store log")->andReturn($tryResponse);
 
         $this->assertInstanceOf(StoreLogResponseContract::class, $endpoint->store($storeLogRequest));
+    }
+
+
+    public function test_it_can_get_index()
+    {
+        $logEndpoint = app()->make(LogEndpoint::class);
+        $client = $this->mockThis(ClientContract::class);
+        $endpoint = $this->mockLogEndpoint(LogEndpoint::class);
+        $indexLogRequestContract = $this->mockIndexLogRequestContract();
+        $response = $this->mockResponseContract();
+        $tryResponse = $this->mockThis(TryResponseContract::class);
+
+        $request = $this->mockThis(RequestContract::class);
+        $this->setPrivateProperty('client', $client, $endpoint);
+
+        $request->shouldReceive('setVerb')->once()->with("GET")->andReturnSelf();
+        $request->shouldReceive('setUrl')->once()->with("logs")->andReturnSelf();
+        $request->shouldReceive('addQuery')->once()->with([])->andReturnSelf();
+
+        $endpoint->shouldReceive('index')->once()->with($indexLogRequestContract)->passthru();
+
+
+        $tryResponse->shouldReceive('response')->once()->withNoArgs()->andReturn($response);
+
+        $client->shouldReceive('try')->once()->with($request, "Cannot store log")->andReturn($tryResponse);
+
+        $this->assertInstanceOf(IndexLogRequestContract::class, $endpoint->index($indexLogRequestContract));
     }
 }

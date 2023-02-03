@@ -1,8 +1,8 @@
 <?php
+
 namespace Deegitalbe\LaravelTrustupIoAudit\Contracts\Models;
 
-use Illuminate\Database\Eloquent\Collection;
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\LogContract;
+use Illuminate\Support\Collection;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoExternalModelRelations\Contracts\Models\ExternalModelRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoExternalModelRelations\Contracts\Models\Relations\ExternalModelRelationContract;
@@ -11,7 +11,7 @@ interface TrustupIoAuditRelatedModelWithRelationsContract extends ExternalModelR
 {
     public function trustupIoAuditLogs(): ExternalModelRelationContract;
 
-    /** @return Collection<int, LogContract> */
+    /** @return Collection<int, ExternalModelContract> */
     public function getTrustupIoAuditLogs(): Collection;
 
     public function getTrustupIoAuditLogColumn(): string;

@@ -9,7 +9,7 @@ class LogServiceAdapter implements LogServiceAdapterContract
 {
     public function getAppKey(): string
     {
-        return Package::getConfig("TRUSTUP_APP_KEY");
+        return Package::getConfig("app_key");
     }
 
     public function getResponsibleId(): string

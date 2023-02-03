@@ -25,16 +25,16 @@ class LogEndpoint implements LogEndpointContract
 
     public function store(StoreLogRequestContract $storeRequest): StoreLogResponseContract
     {
-
         $this->request->setVerb("POST")->setUrl("logs")->addData($storeRequest->toArray());
         $response = $this->client->try($this->request, "Cannot store log");
         /** @var StoreLogResponseContract */
         return app()->make(StoreLogResponseContract::class)->setResponse($response->response());
     }
 
-    public function index(IndexLogRequestContract $request): IndexLogResponseContract
+    public function index(IndexLogRequestContract $indexLogRequestContract): IndexLogResponseContract
     {
-        $this->request->setVerb("GET")->setUrl("logs");
+        // filter logs when previous specified identifiers.
+        $this->request->setVerb("GET")->setUrl("logs")->addQuery(['uuids' => $indexLogRequestContract->getUuids()->all()]);
         $response = $this->client->try($this->request, "Cannot get logs");
         /** @var IndexLogResponseContract */
         return app()->make(IndexLogResponseContract::class)->setResponse($response->response());

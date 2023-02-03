@@ -15,5 +15,5 @@ interface IndexLogRequestContract
     /**
      * @return Collection<int, string>
      */
-    public function getUuids(Collection $uuids): Collection;
+    public function getUuids(): Collection;
 }
