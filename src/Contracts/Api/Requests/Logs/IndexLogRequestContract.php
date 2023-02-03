@@ -11,4 +11,9 @@ interface IndexLogRequestContract
      * @return static
      */
     public function setUuids(Collection $uuids): IndexLogRequestContract;
+
+    /**
+     * @return Collection<int, string>
+     */
+    public function getUuids(Collection $uuids): Collection;
 }
