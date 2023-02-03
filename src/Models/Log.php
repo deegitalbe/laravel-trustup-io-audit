@@ -1,6 +1,6 @@
 <?php
 
-namespace Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs;
+namespace Deegitalbe\LaravelTrustupIoAudit\Models;
 
 use Carbon\Carbon;
 use Deegitalbe\LaravelTrustupIoExternalModelRelations\Contracts\Models\ExternalModelContract;
