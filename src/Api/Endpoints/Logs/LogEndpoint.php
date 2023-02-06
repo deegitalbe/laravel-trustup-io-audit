@@ -29,7 +29,6 @@ class LogEndpoint implements LogEndpointContract
         $response = $this->client->try($this->request, "Cannot store log");
         /** @var StoreLogResponseContract */
         $formated = app()->make(StoreLogResponseContract::class);
-
         return $formated->setResponse($response);
     }
 
@@ -43,7 +42,6 @@ class LogEndpoint implements LogEndpointContract
         $response = $this->client->try($this->request, "Cannot get logs");
         /** @var IndexLogResponseContract */
         $formated = app()->make(IndexLogResponseContract::class);
-
         return $formated->setResponse($response);
     }
 }

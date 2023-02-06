@@ -180,11 +180,12 @@ class Log implements LogContract
     {
         return $this->getUuid() ?? $this->getId();
     }
-    
+
     public function fromArray(array $attributes): LogContract
     {
         $this->setId($attributes["id"]);
         $this->setUuid($attributes["uuid"]);
+        $this->setEventName($attributes["event_name"]);
         $this->setResponsibleId($attributes["responsible_id"] ?? null);
         $this->setResponsibleType($attributes["responsible_type"] ?? null);
         $this->setAppKey($attributes["app_key"] ?? null);

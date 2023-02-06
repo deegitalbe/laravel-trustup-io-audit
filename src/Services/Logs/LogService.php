@@ -64,8 +64,9 @@ class LogService implements LogServiceContract
 
     // dispatch job that triggers endpoint.
     public function storeRequest(StoreLogRequestContract $request): ?string
-    {
+    {   // set uuid on request before calling endpoint.
+        $uuid = $request->getUuid();
         CallLogEndpoint::dispatch($this->getEndpoint(), $request);
-        return $request->getUuid();
+        return $uuid;
     }
 }

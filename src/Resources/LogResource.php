@@ -17,6 +17,7 @@ class LogResource extends JsonResource
         return [
             "id" => $this->getId(),
             "uuid" => $this->getUuid(),
+            "event_name" => $this->getEventName(),
             "responsible_id" => $this->getresponsibleId(),
             "responsible_type" => $this->getResponsibleType(),
             "app_key" => $this->getAppKey(),
