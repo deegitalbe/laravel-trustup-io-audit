@@ -53,7 +53,7 @@ class IndexLogResponseTest extends TestCase
 
     public function test_that_it_can_get_logs()
     {
-        $arr = ['data' => ["somekey" => "withdata"]];
+        $arr = ['data' => [["somekey" => "withdata"]]];
         $indexLogResponse = $this->mockIndexLogResponse();
         $responseContract = $this->mockResponseContract();
         $response = $this->mockResponse();

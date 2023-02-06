@@ -66,4 +66,6 @@ interface LogContract extends ExternalModelContract
     public function getImpersonatedBy(): ?string;
 
     public function getId(): int;
+
+    public function fromArray(array $attributes): LogContract;
 }

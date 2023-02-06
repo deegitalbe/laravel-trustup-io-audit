@@ -6,7 +6,6 @@ use Illuminate\Support\Collection;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\LogContract;
 use Deegitalbe\LaravelTrustupIoAudit\Api\Responses\Logs\LogResponse;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\IndexLogResponseContract as LogsIndexLogResponseContract;
-use Deegitalbe\LaravelTrustupIoAudit\Models\Log;
 
 class IndexLogResponse extends LogResponse implements LogsIndexLogResponseContract
 {
@@ -20,12 +19,20 @@ class IndexLogResponse extends LogResponse implements LogsIndexLogResponseContra
      */
     public function getLogs(): Collection
     {
-        if ($this->getResponse()->response()->failed()) return collect();
-        $array = $this->getResponse()->get(true);
-        return collect($array['data'])->map(
-            fn (array $attribute) =>
-            /** @var Log */
-            app()->make(Log::class)->fromArray($attribute)
+        if ($this->getResponse()->failed()) return collect();
+
+        $body = $this->getResponse()->response()->get(true);
+        
+        return collect($body['data'])->map(
+            fn (array $attributes) => $this->transformRawLog($attributes)
         );
+    }
+
+    protected function transformRawLog(array $attributes): LogContract
+    {
+        /** @var LogContract */
+        $log = app()->make(LogContract::class);
+
+        return $log->fromArray($attributes);
     }
 }

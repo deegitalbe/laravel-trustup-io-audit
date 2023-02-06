@@ -2,12 +2,12 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs;
 
-use Henrotaym\LaravelApiClient\Contracts\ResponseContract;
+use Henrotaym\LaravelApiClient\Contracts\TryResponseContract;
 
 interface LogResponseContract
 {
-    public function getResponse(): ResponseContract;
+    public function getResponse(): TryResponseContract;
 
     /** @return static */
-    public function setResponse(ResponseContract $response): LogResponseContract;
+    public function setResponse(TryResponseContract $response): LogResponseContract;
 }
