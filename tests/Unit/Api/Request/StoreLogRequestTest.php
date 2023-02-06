@@ -1,6 +1,6 @@
 <?php
 
-namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit;
+namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\Api\Request;
 
 use Carbon\Carbon;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;

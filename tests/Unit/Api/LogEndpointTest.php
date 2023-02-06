@@ -1,6 +1,6 @@
 <?php
 
-namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit;
+namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\Api;
 
 use Mockery\MockInterface;
 use Henrotaym\LaravelTestSuite\TestSuite;
@@ -13,6 +13,7 @@ use Deegitalbe\LaravelTrustupIoAudit\Api\Endpoints\Logs\LogEndpoint;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\IndexLogRequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\IndexLogResponseContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\StoreLogResponseContract;
 
 class LogEndpointTest extends TestCase
@@ -103,18 +104,19 @@ class LogEndpointTest extends TestCase
 
         $request = $this->mockThis(RequestContract::class);
         $this->setPrivateProperty('client', $client, $endpoint);
+        $this->setPrivateProperty('request', $request, $endpoint);
+
 
         $request->shouldReceive('setVerb')->once()->with("GET")->andReturnSelf();
         $request->shouldReceive('setUrl')->once()->with("logs")->andReturnSelf();
-        $request->shouldReceive('addQuery')->once()->with([])->andReturnSelf();
-
+        $request->shouldReceive('addQuery')->once()->with(['uuids' => []])->andReturnSelf();
         $endpoint->shouldReceive('index')->once()->with($indexLogRequestContract)->passthru();
 
+        $indexLogRequestContract->shouldReceive('getUuids')->once()->withNoArgs()->andReturn(collect());
 
         $tryResponse->shouldReceive('response')->once()->withNoArgs()->andReturn($response);
+        $client->shouldReceive('try')->once()->with($request, "Cannot get logs")->andReturn($tryResponse);
 
-        $client->shouldReceive('try')->once()->with($request, "Cannot store log")->andReturn($tryResponse);
-
-        $this->assertInstanceOf(IndexLogRequestContract::class, $endpoint->index($indexLogRequestContract));
+        $this->assertInstanceOf(IndexLogResponseContract::class, $endpoint->index($indexLogRequestContract));
     }
 }
