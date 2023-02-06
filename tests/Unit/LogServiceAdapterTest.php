@@ -30,12 +30,11 @@ class LogServiceAdapterTest extends TestCase
 
     public function test_that_it_can_get_app_key()
     {
-        $test = "test";
-        Config::set('app_key', $test);
+        $value = "test-key";
         $logServiceAdapter = $this->mockLogServiceAdapter();
         $logServiceAdapter->shouldReceive('getAppKey')->once()->withNoArgs()->passthru();
 
-        $this->assertEquals($test, $logServiceAdapter->getAppKey());
+        $this->assertEquals($value, $logServiceAdapter->getAppKey());
     }
 
 

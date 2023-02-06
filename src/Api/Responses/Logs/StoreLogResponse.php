@@ -10,6 +10,6 @@ class StoreLogResponse extends LogResponse implements StoreLogResponseContract
 
     public function getUuid(): ?string
     {
-        return $this->getResponse()->get();
+        return $this->getResponse()->response()->get();
     }
 }

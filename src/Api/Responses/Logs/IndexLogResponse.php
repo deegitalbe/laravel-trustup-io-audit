@@ -22,9 +22,10 @@ class IndexLogResponse extends LogResponse implements LogsIndexLogResponseContra
         if ($this->getResponse()->failed()) return collect();
 
         $body = $this->getResponse()->response()->get(true);
-        
+
         return collect($body['data'])->map(
-            fn (array $attributes) => $this->transformRawLog($attributes)
+            fn (array $attributes) =>
+            $this->transformRawLog($attributes)
         );
     }
 

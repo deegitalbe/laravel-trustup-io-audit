@@ -59,9 +59,6 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
 
     public function test_that_it_can_observe_created_event()
     {
-        $test = "test";
-
-        Config::set('app_key', $test);
         $user = new stdClass();
         $user->id = "2";
         Bus::fake();
@@ -80,9 +77,6 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
 
     public function test_that_it_can_observe_updated_event()
     {
-        $test = "test";
-
-        Config::set('app_key', $test);
         $user = new stdClass();
         $user->id = "2";
         Bus::fake();
@@ -105,9 +99,7 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
 
     public function test_that_it_can_observe_deleted_event()
     {
-        $test = "test";
 
-        Config::set('app_key', $test);
         $user = new stdClass();
         $user->id = "2";
         Bus::fake();
@@ -128,9 +120,6 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
 
     public function test_that_it_can_observe_restored_event()
     {
-        $test = "test";
-
-        Config::set('app_key', $test);
         $user = new stdClass();
         $user->id = "2";
         Bus::fake();
@@ -162,9 +151,6 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
 
     public function test_that_it_can_observe_forcedDelete_event()
     {
-        $test = "test";
-
-        Config::set('app_key', $test);
         $user = new stdClass();
         $user->id = "2";
         Bus::fake();

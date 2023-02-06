@@ -36,7 +36,10 @@ class LogEndpoint implements LogEndpointContract
     public function index(IndexLogRequestContract $indexLogRequestContract): IndexLogResponseContract
     {
         // filter logs when previous specified identifiers.
-        $this->request->setVerb("GET")->setUrl("logs")->addQuery(['uuids' => $indexLogRequestContract->getUuids()->all()]);
+        $this->request->setVerb("GET")->setUrl("logs");
+        if ($indexLogRequestContract->hasUuids()) {
+            $this->request->addQuery(['uuids' => $indexLogRequestContract->getUuids()->all()]);
+        }
         $response = $this->client->try($this->request, "Cannot get logs");
         /** @var IndexLogResponseContract */
         $formated = app()->make(IndexLogResponseContract::class);

@@ -11,7 +11,7 @@ class User extends BaseUser implements TrustupIoAuditRelatedModelContract
 {
     use IsTrustupIoAuditRelatedModel, SoftDeletes;
     protected $table = 'users';
-
+    protected string $uuid = "test";
     protected $fillable = ["name", "email", "password"];
 
     public function getTrustupIoAuditPayload(): array

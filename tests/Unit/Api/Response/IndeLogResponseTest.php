@@ -2,15 +2,19 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\Api\Response;
 
+use stdClass;
 use Mockery\MockInterface;
+use Illuminate\Http\Client\Response;
 use Henrotaym\LaravelTestSuite\TestSuite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
-use Deegitalbe\LaravelTrustupIoAudit\Api\Responses\Logs\IndexLogResponse;
 use Henrotaym\LaravelApiClient\Contracts\ResponseContract;
+use Henrotaym\LaravelApiClient\Contracts\TryResponseContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\LogContract;
+use Deegitalbe\LaravelTrustupIoAudit\Api\Responses\Logs\IndexLogResponse;
+use Deegitalbe\LaravelTrustupIoAudit\Models\Log;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
-use Illuminate\Http\Client\Response;
-use stdClass;
+use Illuminate\Support\Collection;
 
 class IndexLogResponseTest extends TestCase
 {
@@ -41,34 +45,47 @@ class IndexLogResponseTest extends TestCase
 
 
     /**
-     * Mocking Response.
+     * Mocking LogContract.
      * 
-     * @return Response|MockInterface
+     * @return LogContract|MockInterface
      */
-    protected function mockResponse(): MockInterface
+    protected function mockLogContract(): MockInterface
     {
-        /** @var Response */
-        return $this->mockThis(Response::class);
+        /** @var LogContract */
+        return $this->mockThis(LogContract::class);
+    }
+
+    /**
+     * Mocking TryResponseContract.
+     * 
+     * @return TryResponseContract|MockInterface
+     */
+    protected function mockTryResponseContract(): MockInterface
+    {
+        /** @var TryResponseContract */
+        return $this->mockThis(TryResponseContract::class);
     }
 
     public function test_that_it_can_get_logs()
     {
-        $arr = ['data' => [["somekey" => "withdata"]]];
+        $log = ["somekey" => "withdata"];
+        $arr = ['data' => [$log]];
         $indexLogResponse = $this->mockIndexLogResponse();
+        $tryResponseContract = $this->mockTryResponseContract();
         $responseContract = $this->mockResponseContract();
-        $response = $this->mockResponse();
+        $ogContract = $this->mockLogContract();
 
-        $indexLogResponse->shouldReceive('getResponse')->twice()->withNoArgs()->andReturn($responseContract);
+        $indexLogResponse->shouldReceive('getResponse')->twice()->withNoArgs()->andReturn($tryResponseContract);
+
+        $tryResponseContract->shouldReceive('response')->once()->withNoArgs()->andReturn($responseContract);
+        $tryResponseContract->shouldReceive('failed')->once()->withNoArgs()->andReturnFalse();
 
         $responseContract->shouldReceive('get')->once()->with(true)->andReturn(collect($arr));
-        $responseContract->shouldReceive('response')->once()->withNoArgs()->andReturn($response);
 
-        $response->shouldReceive('failed')->once()->withNoArgs()->andReturnFalse();
-
-        // $indexLogResponse->shouldReceive('getLogs')->once()->withNoArgs()->andReturn(collect());
+        $indexLogResponse->shouldReceive('transformRawLog')->once()->with($log)->andReturn($ogContract);
 
         $indexLogResponse->shouldReceive('getLogs')->once()->withNoArgs()->passthru();
 
-        $this->assertEquals(collect(), $indexLogResponse->getLogs());
+        $this->assertInstanceOf(Collection::class, $indexLogResponse->getLogs());
     }
 }

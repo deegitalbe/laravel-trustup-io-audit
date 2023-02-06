@@ -77,6 +77,8 @@ class LogEndpointTest extends TestCase
 
         $request = $this->mockThis(RequestContract::class);
         $this->setPrivateProperty('client', $client, $endpoint);
+        $this->setPrivateProperty('request', $request, $endpoint);
+
 
         $request->shouldReceive('setVerb')->once()->with("POST")->andReturnSelf();
         $request->shouldReceive('setUrl')->once()->with("logs")->andReturnSelf();
@@ -85,7 +87,6 @@ class LogEndpointTest extends TestCase
         $endpoint->shouldReceive('store')->once()->with($storeLogRequest)->passthru();
 
         $storeLogRequest->shouldReceive('toArray')->once()->withNoArgs()->andReturn([]);
-        $tryResponse->shouldReceive('response')->once()->withNoArgs()->andReturn($response);
 
         $client->shouldReceive('try')->once()->with($request, "Cannot store log")->andReturn($tryResponse);
 
@@ -95,11 +96,9 @@ class LogEndpointTest extends TestCase
 
     public function test_it_can_get_index()
     {
-        $logEndpoint = app()->make(LogEndpoint::class);
         $client = $this->mockThis(ClientContract::class);
         $endpoint = $this->mockLogEndpoint(LogEndpoint::class);
         $indexLogRequestContract = $this->mockIndexLogRequestContract();
-        $response = $this->mockResponseContract();
         $tryResponse = $this->mockThis(TryResponseContract::class);
 
         $request = $this->mockThis(RequestContract::class);
@@ -112,9 +111,9 @@ class LogEndpointTest extends TestCase
         $request->shouldReceive('addQuery')->once()->with(['uuids' => []])->andReturnSelf();
         $endpoint->shouldReceive('index')->once()->with($indexLogRequestContract)->passthru();
 
+        $indexLogRequestContract->shouldReceive("hasUuids")->once()->withNoArgs()->andReturn(true);
         $indexLogRequestContract->shouldReceive('getUuids')->once()->withNoArgs()->andReturn(collect());
 
-        $tryResponse->shouldReceive('response')->once()->withNoArgs()->andReturn($response);
         $client->shouldReceive('try')->once()->with($request, "Cannot get logs")->andReturn($tryResponse);
 
         $this->assertInstanceOf(IndexLogResponseContract::class, $endpoint->index($indexLogRequestContract));

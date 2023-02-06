@@ -27,4 +27,9 @@ class IndexLogRequest implements IndexLogRequestContract
     {
         return $this->uuids;
     }
+
+    public function hasUuids(): bool
+    {
+        return $this->getUuids()->isNotEmpty();
+    }
 }

@@ -16,4 +16,7 @@ interface IndexLogRequestContract
      * @return Collection<int, string>
      */
     public function getUuids(): Collection;
+
+    /** @return bool */
+    public function hasUuids(): bool;
 }
