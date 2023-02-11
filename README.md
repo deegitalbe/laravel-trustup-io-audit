@@ -113,8 +113,10 @@ namespace App\Http\Resources;
 use Deegitalbe\LaravelTrustupIoAudit\Resources\LogResource;
 use Deegitalbe\LaravelTrustupIoExternalModelRelations\Traits\Resources\IsExternalModelRelatedResource;
 
-class PostResource extends ExternalModelRelatedResource
+class TicketExampleResource
 {
+    use IsExternalModelRelatedResource;
+
 
     /**
      * Transform the resource into an array.
