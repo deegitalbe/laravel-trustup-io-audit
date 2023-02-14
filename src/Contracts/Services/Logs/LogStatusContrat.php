@@ -18,5 +18,5 @@ interface LogStatusContrat
 
     public function disabled(): bool;
 
-    public function getAppVersionUrl(): string;
+    public function getAppUrl(): string;
 }
