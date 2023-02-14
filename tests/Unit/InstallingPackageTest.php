@@ -1,9 +1,8 @@
 <?php
+
 namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit;
 
-use Carbon\Carbon;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
-use Deegitalbe\LaravelTrustupIoAudit\Providers\LaravelTrustupIoAuditServiceProvider;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
 

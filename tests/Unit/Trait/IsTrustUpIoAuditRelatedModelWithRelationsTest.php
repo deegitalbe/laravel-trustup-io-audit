@@ -6,7 +6,6 @@ namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit;
 use Mockery\MockInterface;
 use Henrotaym\LaravelTestSuite\TestSuite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
 use Deegitalbe\LaravelTrustupIoAudit\Models\TrustupIoLogLoadingCallback;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\Models\UserWithRelations;

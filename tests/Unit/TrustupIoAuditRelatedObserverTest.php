@@ -6,7 +6,6 @@ use stdClass;
 use Mockery\MockInterface;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use Henrotaym\LaravelTestSuite\TestSuite;
 use Illuminate\Database\Schema\Blueprint;
@@ -25,7 +24,7 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
 
     /**
      * Mocking TrustupIoAuditRelatedObserver.
-     * 
+     *
      * @return TrustupIoAuditRelatedObserver|MockInterface
      */
     protected function mockTrustupIoAuditRelatedObserver(): MockInterface
@@ -36,7 +35,7 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
 
     /**
      * Mocking TrustupIoAuditRelatedModelContract.
-     * 
+     *
      * @return TrustupIoAuditRelatedModelContract|MockInterface
      */
     protected function mockTrustupIoAuditRelatedModelContract(): MockInterface
@@ -47,7 +46,7 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
 
     /**
      * Mocking LogService.
-     * 
+     *
      * @return LogService|MockInterface
      */
     protected function mockLogServiceContract(): MockInterface

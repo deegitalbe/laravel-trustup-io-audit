@@ -11,7 +11,6 @@ use Deegitalbe\LaravelTrustupIoAudit\Api\Requests\Logs\StoreLogRequest;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\Adapters\LogServiceAdapterContract;
 
@@ -21,7 +20,7 @@ class LogServiceTest extends TestCase
 
     /**
      * Mocking LogServiceContract.
-     * 
+     *
      * @return LogServiceContract|MockInterface
      */
     protected function mockLogServiceContract(): MockInterface
@@ -32,7 +31,7 @@ class LogServiceTest extends TestCase
 
     /**
      * Mocking LogService.
-     * 
+     *
      * @return LogService|MockInterface
      */
     protected function mockLogService(): MockInterface
@@ -43,7 +42,7 @@ class LogServiceTest extends TestCase
 
     /**
      * Mocking TrustupIoAuditRelatedModelContract.
-     * 
+     *
      * @return TrustupIoAuditRelatedModelContract|MockInterface
      */
     protected function mockTrustupIoAuditRelatedModelContract(): MockInterface
@@ -54,7 +53,7 @@ class LogServiceTest extends TestCase
 
     /**
      * Mocking LogEndpointContract.
-     * 
+     *
      * @return LogEndpointContract|MockInterface
      */
     protected function mockLogEndpointContract(): MockInterface
@@ -65,7 +64,7 @@ class LogServiceTest extends TestCase
 
     /**
      * Mocking LogServiceAdapterContract.
-     * 
+     *
      * @return LogServiceAdapterContract|MockInterface
      */
     protected function mockLogServiceAdapterContract(): MockInterface
@@ -76,7 +75,7 @@ class LogServiceTest extends TestCase
 
     /**
      * Mocking StoreLogRequest.
-     * 
+     *
      * @return StoreLogRequest|MockInterface
      */
     protected function mockLogStoreLogRequest(): MockInterface

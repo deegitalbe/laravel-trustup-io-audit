@@ -3,6 +3,7 @@
 namespace Deegitalbe\LaravelTrustupIoAudit\Api\Endpoints\Logs;
 
 use Carbon\Carbon;
+use Deegitalbe\LaravelTrustupIoAudit\Facades\Package;
 use Henrotaym\LaravelApiClient\Contracts\ClientContract;
 use Henrotaym\LaravelApiClient\Contracts\RequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Api\Credentials\LogCredential;
@@ -25,6 +26,7 @@ class LogEndpoint implements LogEndpointContract
 
     public function store(StoreLogRequestContract $storeRequest): StoreLogResponseContract
     {
+        dd($this->request);
         $this->request->setVerb("POST")->setUrl("logs")->addData($storeRequest->toArray());
         $response = $this->client->try($this->request, "Cannot store log");
         /** @var StoreLogResponseContract */

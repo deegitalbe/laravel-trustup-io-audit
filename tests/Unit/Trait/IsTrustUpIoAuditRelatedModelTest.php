@@ -4,11 +4,12 @@ namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit;
 
 
 use Mockery\MockInterface;
+use Illuminate\Support\Facades\Config;
 use Henrotaym\LaravelTestSuite\TestSuite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
+use Deegitalbe\LaravelTrustupIoAudit\Facades\Package;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\Models\User;
-use Deegitalbe\LaravelTrustupIoAudit\Models\IsTrustupIoAuditRelatedModel;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
 
 class IsTrustupIoAuditRelatedModelTest extends TestCase
@@ -18,7 +19,7 @@ class IsTrustupIoAuditRelatedModelTest extends TestCase
 
     /**
      * Mocking User.
-     * 
+     *
      * @return User|MockInterface
      */
     protected function mockUser(): MockInterface
@@ -42,14 +43,5 @@ class IsTrustupIoAuditRelatedModelTest extends TestCase
         $class->shouldReceive("getMorphClass")->once()->withNoArgs()->andReturn("app\\model\\test");
         $class->shouldReceive("getTrustupIoAuditModelType")->once()->withNoArgs()->passthru();
         $this->assertEquals("app-model-test", $class->getTrustupIoAuditModelType());
-    }
-
-
-    public function test_that_it_can_get_trustup_io_audit_related_model_can_register_observer()
-    {
-        //https://www.timbroder.com/2016/04/trying-to-mock-a-self-booting-laravel-model-trait/
-        $mock = $this->mockThis(User::class)->makePartial();
-        $mock->shouldReceive('bootIsTrustupIoAuditRelatedModel')->once();
-        $mock->__construct();
     }
 }

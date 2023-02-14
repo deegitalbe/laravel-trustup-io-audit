@@ -22,29 +22,32 @@ use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\LogResponseCon
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\StoreLogResponseContract;
 use Henrotaym\LaravelPackageVersioning\Providers\Abstracts\VersionablePackageServiceProvider;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\Adapters\LogServiceAdapterContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContrat;
+use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogStatus;
 
 class LaravelTrustupIoAuditServiceProvider extends VersionablePackageServiceProvider
 {
 
-	public static function getPackageClass(): string
-	{
-		return PackageClass::class;
-	}
+    public static function getPackageClass(): string
+    {
+        return PackageClass::class;
+    }
 
-	protected function addToRegister(): void
-	{
-		$this->app->bind(LogEndpointContract::class, LogEndpoint::class);
-		$this->app->bind(StoreLogResponseContract::class, StoreLogResponse::class);
-		$this->app->bind(StoreLogRequestContract::class, StoreLogRequest::class);
-		$this->app->bind(LogServiceAdapterContract::class, LogServiceAdapter::class);
-		$this->app->bind(LogServiceContract::class, LogService::class);
-		$this->app->bind(LogContract::class, Log::class);
-		$this->app->bind(IndexLogRequestContract::class, IndexLogRequest::class);
-		$this->app->bind(IndexLogResponseContract::class, IndexLogResponse::class);
-		$this->app->bind(LogResponseContract::class, LogResponse::class);
-	}
+    protected function addToRegister(): void
+    {
+        $this->app->bind(LogEndpointContract::class, LogEndpoint::class);
+        $this->app->bind(StoreLogResponseContract::class, StoreLogResponse::class);
+        $this->app->bind(StoreLogRequestContract::class, StoreLogRequest::class);
+        $this->app->bind(LogServiceAdapterContract::class, LogServiceAdapter::class);
+        $this->app->bind(LogServiceContract::class, LogService::class);
+        $this->app->bind(LogContract::class, Log::class);
+        $this->app->bind(IndexLogRequestContract::class, IndexLogRequest::class);
+        $this->app->bind(IndexLogResponseContract::class, IndexLogResponse::class);
+        $this->app->bind(LogResponseContract::class, LogResponse::class);
+        // $this->app->bind(LogStatusContrat::class, LogStatus::class);
+    }
 
-	protected function addToBoot(): void
-	{
-	}
+    protected function addToBoot(): void
+    {
+    }
 }
