@@ -13,7 +13,6 @@ class LogCredential extends JsonCredential
     {
         parent::prepare($request);
         $status = app()->make(LogStatus::class);
-        $config = $status->getAppVersionUrl();
-        $request->setBaseUrl(Package::getConfig($config) . '/api');
+        $request->setBaseUrl(Package::getConfig($status->getAppUrl();) . '/api');
     }
 }

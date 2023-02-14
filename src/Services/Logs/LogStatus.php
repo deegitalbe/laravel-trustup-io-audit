@@ -45,7 +45,7 @@ class LogStatus implements LogStatusContrat
         return false;
     }
 
-    public function getAppVersionUrl(): string
+    public function getAppUrl(): string
     {
         if (!$this->getAppEnv() === "staging") return $this->getProductionUrl();
         return $this->getStagingUrl();
@@ -55,25 +55,4 @@ class LogStatus implements LogStatusContrat
     {
         return filter_var($string, FILTER_VALIDATE_BOOLEAN);
     }
-
-    // protected function shouldLogEvent(string $eventName): bool
-    // {
-
-    // if (!$this->enableLoggingModelsEvents || $logStatus->disabled()) {
-    //     return false;
-    // }
-
-    // if (!in_array($eventName, ['created', 'updated'])) {
-    //     return true;
-    // }
-
-    // // Do not log update event if the model is restoring
-    // if ($this->isRestoring()) {
-    //     return false;
-    // }
-
-    // // Do not log update event if only ignored attributes are changed.
-    // return (bool) count(Arr::except($this->getDirty(), $this->activitylogOptions->dontLogIfAttributesChangedOnly));
-    //     return true;
-    // }
 }
