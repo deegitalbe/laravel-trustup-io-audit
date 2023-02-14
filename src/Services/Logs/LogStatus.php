@@ -9,6 +9,16 @@ class LogStatus
 
     // protected bool $disabledLogStatus = false;
 
+    public function getAppEnv(): string
+    {
+        return Package::getConfig("app_env");
+    }
+
+    public function getAuditLogEnvStatus(): string
+    {
+        return   Package::getConfig("audit_log_enabled");
+    }
+
     public function isRunningTest(): bool
     {
         return  app()->runningUnitTests();
@@ -16,7 +26,7 @@ class LogStatus
 
     public function shouldNotLogEvent(): bool
     {
-        if (!Package::getConfig("app_env") == 'staging' || $this->validateAsBool(Package::getConfig("audit_log_enabled")) === true) return false;
+        if (!$this->getAppEnv() == 'staging' || $this->validateAsBool($this->getAuditLogEnvStatus()) === true) return false;
         return true;
     }
 
