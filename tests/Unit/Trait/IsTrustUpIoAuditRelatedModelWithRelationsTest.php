@@ -14,8 +14,7 @@ use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
 use Deegitalbe\LaravelTrustupIoExternalModelRelations\Contracts\Models\ExternalModelContract;
 use Deegitalbe\LaravelTrustupIoExternalModelRelations\Contracts\Models\Relations\ExternalModelRelationContract;
 use Deegitalbe\LaravelTrustupIoExternalModelRelations\Contracts\Models\Relations\ExternalModelRelationSubscriberContract;
-use Deegitalbe\LaravelTrustupIoExternalModelRelations\Models\Relations\ExternalModelRelationSubscriber;
-use SebastianBergmann\Type\VoidType;
+
 
 class IsTrustupIoAuditRelatedModelWithRelationsTest extends TestCase
 {
@@ -23,7 +22,7 @@ class IsTrustupIoAuditRelatedModelWithRelationsTest extends TestCase
 
     /**
      * Mocking UserWithRelations.
-     * 
+     *
      * @return UserWithRelations|MockInterface
      */
     protected function mockUserWithRelations(): MockInterface

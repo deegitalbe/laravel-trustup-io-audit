@@ -3,9 +3,9 @@
 namespace Deegitalbe\LaravelTrustupIoAudit\Models;
 
 
-use Deegitalbe\LaravelTrustupIoAudit\Observers\TrustupIoAuditRelatedObserver;
 use Illuminate\Support\Str;
-
+use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogStatus;
+use Deegitalbe\LaravelTrustupIoAudit\Observers\TrustupIoAuditRelatedObserver;
 
 trait IsTrustupIoAuditRelatedModel
 {
@@ -34,7 +34,9 @@ trait IsTrustupIoAuditRelatedModel
      * Register Observer on static from trait in added models.
      */
     public static function bootIsTrustupIoAuditRelatedModel()
-    {
+    {   // deactivate observer with LoStatus
+        $logStatus = app()->make(LogStatus::class);
+        if ($logStatus->disabled()) return;
         static::observe(TrustupIoAuditRelatedObserver::class);
     }
 }
