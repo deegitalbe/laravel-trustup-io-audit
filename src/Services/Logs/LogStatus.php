@@ -16,7 +16,7 @@ class LogStatus
 
     public function shouldNotLogEvent(): bool
     {
-        if (!Package::getConfig("app_env") == 'staging' || Package::getConfig("audit_log_enabled") === true) return false;
+        if (!Package::getConfig("app_env") == 'staging' || $this->validateAsBool(Package::getConfig("audit_log_enabled")) === true) return false;
         return true;
     }
 
@@ -25,6 +25,11 @@ class LogStatus
         if ($this->isRunningTest()) return true;
         if ($this->shouldNotLogEvent()) return true;
         return false;
+    }
+
+    protected function validateAsBool(string $string): bool
+    {
+        return filter_var($string, FILTER_VALIDATE_BOOLEAN);
     }
 
     protected function shouldLogEvent(string $eventName): bool
