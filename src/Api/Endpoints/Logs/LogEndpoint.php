@@ -26,7 +26,7 @@ class LogEndpoint implements LogEndpointContract
 
     public function store(StoreLogRequestContract $storeRequest): StoreLogResponseContract
     {
-        dd($this->request);
+        // @TODO instanciate request directly here.
         $this->request->setVerb("POST")->setUrl("logs")->addData($storeRequest->toArray());
         $response = $this->client->try($this->request, "Cannot store log");
         /** @var StoreLogResponseContract */

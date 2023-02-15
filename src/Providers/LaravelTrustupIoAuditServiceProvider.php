@@ -3,7 +3,7 @@
 namespace Deegitalbe\LaravelTrustupIoAudit\Providers;
 
 use Deegitalbe\LaravelTrustupIoAudit\Models\Log;
-use Deegitalbe\LaravelTrustupIoAudit\Package as PackageClass;
+use Deegitalbe\LaravelTrustupIoAudit\TrustupIoAudit as PackageClass;
 use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogService;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\LogContract;
 use Deegitalbe\LaravelTrustupIoAudit\Api\Endpoints\Logs\LogEndpoint;
@@ -22,8 +22,6 @@ use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\LogResponseCon
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\StoreLogResponseContract;
 use Henrotaym\LaravelPackageVersioning\Providers\Abstracts\VersionablePackageServiceProvider;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\Adapters\LogServiceAdapterContract;
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContrat;
-use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogStatus;
 
 class LaravelTrustupIoAuditServiceProvider extends VersionablePackageServiceProvider
 {

@@ -2,7 +2,7 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Tests;
 
-use Deegitalbe\LaravelTrustupIoAudit\Package;
+use Deegitalbe\LaravelTrustupIoAudit\TrustupIoAudit;
 use Henrotaym\LaravelApiClient\Providers\ClientServiceProvider;
 use Henrotaym\LaravelPackageVersioning\Testing\VersionablePackageTestCase;
 use Deegitalbe\LaravelTrustupIoAudit\Providers\LaravelTrustupIoAuditServiceProvider;
@@ -11,7 +11,7 @@ class TestCase extends VersionablePackageTestCase
 {
     public static function getPackageClass(): string
     {
-        return Package::class;
+        return TrustupIoAudit::class;
     }
 
     public function getServiceProviders(): array
