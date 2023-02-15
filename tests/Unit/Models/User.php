@@ -2,17 +2,17 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\Models;
 
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
-use Deegitalbe\LaravelTrustupIoAudit\Models\IsTrustupIoAuditRelatedModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as BaseUser;
+use Deegitalbe\LaravelTrustupIoAudit\Models\IsTrustupIoAuditRelatedModel;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 
 class User extends BaseUser implements TrustupIoAuditRelatedModelContract
 {
     use IsTrustupIoAuditRelatedModel, SoftDeletes;
     protected $table = 'users';
     protected string $uuid = "test";
-    protected $fillable = ["name", "email", "password"];
+    protected $fillable = ["id", "name", "email", "password", "trustup_io_audit_log_uuids"];
 
     public function getTrustupIoAuditPayload(): array
     {

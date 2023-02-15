@@ -1,4 +1,5 @@
 <?php
+
 namespace Deegitalbe\LaravelTrustupIoAudit\Contracts;
 
 use Mockery\MockInterface;
@@ -21,4 +22,7 @@ interface TrustupIoAuditContract extends VersionablePackageContract, AutoRegistr
 
     // dispatch job that triggers endpoint.
     public function storeRequest(StoreLogRequestContract $request): ?string;
+
+    /** return url from env */
+    public function getApiUrl(): string;
 }

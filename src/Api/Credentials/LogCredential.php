@@ -3,8 +3,8 @@
 namespace Deegitalbe\LaravelTrustupIoAudit\Api\Credentials;
 
 use Henrotaym\LaravelApiClient\JsonCredential;
+use Deegitalbe\LaravelTrustupIoAudit\TrustupIoAudit;
 use Deegitalbe\LaravelTrustupIoAudit\Facades\Package;
-use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogStatus;
 use Henrotaym\LaravelApiClient\Contracts\RequestContract;
 
 class LogCredential extends JsonCredential
@@ -12,8 +12,7 @@ class LogCredential extends JsonCredential
     public function prepare(RequestContract &$request)
     {
         parent::prepare($request);
-        /** @var LogStatus */
-        $status = app()->make(LogStatus::class);
-        $request->setBaseUrl(Package::getConfig($status->getAppUrl()) . '/api');
+        $facade = app()->make(TrustupIoAudit::class);
+        $request->setBaseUrl(Package::getConfig($facade->getApiUrl()) . '/api');
     }
 }

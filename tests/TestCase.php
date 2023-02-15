@@ -6,6 +6,7 @@ use Deegitalbe\LaravelTrustupIoAudit\TrustupIoAudit;
 use Henrotaym\LaravelApiClient\Providers\ClientServiceProvider;
 use Henrotaym\LaravelPackageVersioning\Testing\VersionablePackageTestCase;
 use Deegitalbe\LaravelTrustupIoAudit\Providers\LaravelTrustupIoAuditServiceProvider;
+use Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\database\migrations\CreateUsersTable;
 
 class TestCase extends VersionablePackageTestCase
 {
@@ -31,7 +32,9 @@ class TestCase extends VersionablePackageTestCase
 
     protected function getEnvironmentSetUp($app)
     {
-        # Setup default database to use sqlite :memory:
+        include_once __DIR__ . '/Unit/database/migrations/create_users_table.php';
+        // app()->make(CreateUsersTable::class)->up();
+
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
             'driver'   => 'sqlite',
