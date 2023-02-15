@@ -4,6 +4,7 @@ namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Feature\Trait;
 
 
 use Mockery\MockInterface;
+use Illuminate\Support\Facades\Cache;
 use Henrotaym\LaravelTestSuite\TestSuite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
@@ -17,6 +18,7 @@ class IsTrustupIoAuditRelatedModelTest extends TestCase
 
     public function test_that_it_cant_boot_trustup_io_audit_related_model_in_env_test()
     {
+        // Test package facade.
         $user = new User();
         $user->create(["name" => "plop", "email" => "plop", "password" => "plop"]);
         $this->assertNull($user->bootIsTrustupIoAuditRelatedModel());

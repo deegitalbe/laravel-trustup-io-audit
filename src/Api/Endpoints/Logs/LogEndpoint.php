@@ -2,8 +2,6 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Api\Endpoints\Logs;
 
-use Carbon\Carbon;
-use Deegitalbe\LaravelTrustupIoAudit\Facades\Package;
 use Henrotaym\LaravelApiClient\Contracts\ClientContract;
 use Henrotaym\LaravelApiClient\Contracts\RequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Api\Credentials\LogCredential;
