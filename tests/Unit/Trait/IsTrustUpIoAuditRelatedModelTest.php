@@ -4,11 +4,9 @@ namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit;
 
 
 use Mockery\MockInterface;
-use Illuminate\Support\Facades\Config;
 use Henrotaym\LaravelTestSuite\TestSuite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
-use Deegitalbe\LaravelTrustupIoAudit\Facades\Package;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\Models\User;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
 

@@ -2,21 +2,22 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Services\Logs\Traits;
 
-use Illuminate\Support\Fluent;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 
 trait TrustupioAuditRelatedMigrations
 {
-    public function addAuditLogColumn($table, $column): void
+    public function addAUditLogColumn(string $model, string  $column = 'trustup_io_audit_log_uuids'): void
     {
-        Schema::table('tickets', function (Blueprint $table) {
-            $table->dateTime('completed_at')->nullable();
+        Schema::table($model, function (Blueprint $table) use ($column) {
+            $table->json($column)->nullable();
         });
     }
 
-    public function removeAuditLogColumn(Blueprint $table): Fluent
+    public function removeAuditLogColumn(string $table, string  $column = 'trustup_io_audit_log_uuids'): void
     {
-        return  $table->dropColumn('trustup_io_audit_log_uuids');
+        Schema::table($table, function (Blueprint $table) use ($column) {
+            $table->dropColumn($column);
+        });
     }
 }

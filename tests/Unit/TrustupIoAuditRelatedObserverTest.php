@@ -17,6 +17,7 @@ use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogService;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
 use Deegitalbe\LaravelTrustupIoAudit\Observers\TrustupIoAuditRelatedObserver;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
+use Deegitalbe\LaravelTrustupIoAudit\Facades\TrustupIoAudit;
 
 class TrustupIoAuditRelatedObserverTest extends TestCase
 {
@@ -61,7 +62,7 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
         $user = new stdClass();
         $user->id = "2";
         Bus::fake();
-
+        TrustupIoAudit::mock();
         Auth::shouldReceive('user')->andReturn($user);
         $user =  User::create([
             'name' => 'Titel',
@@ -79,6 +80,7 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
         $user = new stdClass();
         $user->id = "2";
         Bus::fake();
+        TrustupIoAudit::mock();
         $this->migrateSoftDelete();
         Auth::shouldReceive('user')->andReturn($user);
         $user = User::create([
@@ -102,6 +104,7 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
         $user = new stdClass();
         $user->id = "2";
         Bus::fake();
+        TrustupIoAudit::mock();
         $this->migrateSoftDelete();
         Auth::shouldReceive('user')->andReturn($user);
         $user = User::create([
@@ -122,6 +125,7 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
         $user = new stdClass();
         $user->id = "2";
         Bus::fake();
+        TrustupIoAudit::mock();
         $this->migrateSoftDelete();
         Auth::shouldReceive('user')->andReturn($user);
         $user = User::create([
@@ -153,6 +157,7 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
         $user = new stdClass();
         $user->id = "2";
         Bus::fake();
+        TrustupIoAudit::mock();
         $this->migrateSoftDelete();
         Auth::shouldReceive('user')->andReturn($user);
         $user = User::create([

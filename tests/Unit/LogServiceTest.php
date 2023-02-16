@@ -13,6 +13,7 @@ use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\Adapters\LogServiceAdapterContract;
+use Deegitalbe\LaravelTrustupIoAudit\Facades\TrustupIoAudit;
 
 class LogServiceTest extends TestCase
 {
@@ -146,6 +147,7 @@ class LogServiceTest extends TestCase
     public function test_that_it_can_store_request()
     {
         $str = "test";
+        TrustupIoAudit::mock();
         $logService = $this->mockLogService();
         $endpoint = $this->mockLogEndpointContract();
         $request = $this->mockLogStoreLogRequest();

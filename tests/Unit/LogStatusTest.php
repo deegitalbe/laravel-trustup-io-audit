@@ -2,6 +2,7 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit;
 
+use Deegitalbe\LaravelTrustupIoAudit\Facades\TrustupIoAudit;
 use Mockery\MockInterface;
 use Henrotaym\LaravelTestSuite\TestSuite;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
@@ -22,29 +23,31 @@ class LogStatusesTest extends TestCase
         /** @var LogStatus */
         return $this->mockThis(LogStatus::class);
     }
-    public function test_that_disabled_return_true_if_app_running_test()
+    public function test_that_disabled_return_false_if_app_running_test()
     {
         $logStatus = $this->mockLogStatus();
-        $logStatus->shouldReceive("isRunningTest")->once()->withNoArgs()->andReturnTrue();
-        $logStatus->shouldReceive("disabled")->once()->withNoArgs()->passthru();
-        $this->assertTrue($logStatus->disabled());
+
+        $logStatus->shouldReceive("isEnabled")->once()->withNoArgs()->passthru();
+        $this->assertFalse($logStatus->isEnabled());
     }
 
-    public function test_that_disabled_return_true_if_app_running_test_return_fale_and_shouldNotLog_event_true()
+    public function test_that_isEnabled_return_false_if_package_disable()
     {
+
+        TrustupIoAudit::mock();
+        TrustupIoAudit::disable();
         $logStatus = $this->mockLogStatus();
-        $logStatus->shouldReceive("isRunningTest")->once()->withNoArgs()->andReturnFalse();
-        $logStatus->shouldReceive("shouldNotLogEvent")->once()->withNoArgs()->andReturnTrue();
-        $logStatus->shouldReceive("disabled")->once()->withNoArgs()->passthru();
-        $this->assertTrue($logStatus->disabled());
+
+        $logStatus->shouldReceive("isEnabled")->once()->withNoArgs()->passthru();
+        $this->assertFalse($logStatus->isEnabled());
     }
 
-    public function test_that_disabled_return_false_if_both_verification_return_false()
+    public function test_that_isEnabled_return_true_if_package_is_mock()
     {
+        TrustupIoAudit::enable();
+        TrustupIoAudit::mock();
         $logStatus = $this->mockLogStatus();
-        $logStatus->shouldReceive("isRunningTest")->once()->withNoArgs()->andReturnFalse();
-        $logStatus->shouldReceive("shouldNotLogEvent")->once()->withNoArgs()->andReturnFalse();
-        $logStatus->shouldReceive("disabled")->once()->withNoArgs()->passthru();
-        $this->assertFalse($logStatus->disabled());
+        $logStatus->shouldReceive("isEnabled")->once()->withNoArgs()->passthru();
+        $this->assertTrue($logStatus->isEnabled());
     }
 }

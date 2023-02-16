@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
-        $this->addAuditLogColumn('users', 'audit-truc');
+        $this->addAUditLogColumn('users', 'trustup_io_audit_log_uuids');
     }
 
     /**
@@ -37,5 +37,6 @@ class CreateUsersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('users');
+        // $this->removeAuditLogColumn('users', 'trustup_io_audit_log_uuids');
     }
 }

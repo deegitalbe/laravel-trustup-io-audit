@@ -26,20 +26,20 @@ class TestCase extends VersionablePackageTestCase
 
     public function defineDatabaseMigrations()
     {
-        $this->loadLaravelMigrations(['--database' => 'testbench']);
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+        // $this->loadLaravelMigrations(['--database' => 'testbench']);
+        // $this->artisan('migrate', ['--database' => 'testbench'])->run();
     }
 
     protected function getEnvironmentSetUp($app)
     {
         include_once __DIR__ . '/Unit/database/migrations/create_users_table.php';
-        // app()->make(CreateUsersTable::class)->up();
+        app()->make(CreateUsersTable::class)->up();
 
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => '',
-        ]);
+        // $app['config']->set('database.default', 'testbench');
+        // $app['config']->set('database.connections.testbench', [
+        //     'driver'   => 'sqlite',
+        //     'database' => ':memory:',
+        //     'prefix'   => '',
+        // ]);
     }
 }
