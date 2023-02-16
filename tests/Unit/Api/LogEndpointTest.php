@@ -15,6 +15,7 @@ use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\IndexLogRequest
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\IndexLogResponseContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\StoreLogResponseContract;
+use Deegitalbe\LaravelTrustupIoAudit\Facades\TrustupIoAudit;
 
 class LogEndpointTest extends TestCase
 {
@@ -22,7 +23,7 @@ class LogEndpointTest extends TestCase
 
     /**
      * Mocking ResponseContract.
-     * 
+     *
      * @return ResponseContract|MockInterface
      */
     protected function mockResponseContract(): MockInterface
@@ -33,7 +34,7 @@ class LogEndpointTest extends TestCase
 
     /**
      * Mocking LogEndpoint.
-     * 
+     *
      * @return LogEndpoint|MockInterface
      */
     protected function mockLogEndpoint(): MockInterface
@@ -46,7 +47,7 @@ class LogEndpointTest extends TestCase
 
     /**
      * Mocking StoreLogRequestContract.
-     * 
+     *
      * @return StoreLogRequestContract|MockInterface
      */
     protected function mockStoreLogRequestContract(): MockInterface
@@ -57,7 +58,7 @@ class LogEndpointTest extends TestCase
 
     /**
      * Mocking IndexLogRequestContract.
-     * 
+     *
      * @return IndexLogRequestContract|MockInterface
      */
     protected function mockIndexLogRequestContract(): MockInterface
@@ -77,13 +78,12 @@ class LogEndpointTest extends TestCase
 
         $request = $this->mockThis(RequestContract::class);
         $this->setPrivateProperty('client', $client, $endpoint);
-        $this->setPrivateProperty('request', $request, $endpoint);
 
 
         $request->shouldReceive('setVerb')->once()->with("POST")->andReturnSelf();
         $request->shouldReceive('setUrl')->once()->with("logs")->andReturnSelf();
         $request->shouldReceive('addData')->once()->with([])->andReturnSelf();
-
+        $endpoint->shouldReceive("newRequest")->once()->withNoArgs()->andReturn($request);
         $endpoint->shouldReceive('store')->once()->with($storeLogRequest)->passthru();
 
         $storeLogRequest->shouldReceive('toArray')->once()->withNoArgs()->andReturn([]);
@@ -96,6 +96,7 @@ class LogEndpointTest extends TestCase
 
     public function test_it_can_get_index()
     {
+        TrustupIoAudit::mock();
         $client = $this->mockThis(ClientContract::class);
         $endpoint = $this->mockLogEndpoint(LogEndpoint::class);
         $indexLogRequestContract = $this->mockIndexLogRequestContract();
@@ -103,13 +104,13 @@ class LogEndpointTest extends TestCase
 
         $request = $this->mockThis(RequestContract::class);
         $this->setPrivateProperty('client', $client, $endpoint);
-        $this->setPrivateProperty('request', $request, $endpoint);
 
 
         $request->shouldReceive('setVerb')->once()->with("GET")->andReturnSelf();
         $request->shouldReceive('setUrl')->once()->with("logs")->andReturnSelf();
         $request->shouldReceive('addQuery')->once()->with(['uuids' => []])->andReturnSelf();
         $endpoint->shouldReceive('index')->once()->with($indexLogRequestContract)->passthru();
+        $endpoint->shouldReceive('newRequest')->once()->withNoArgs()->andReturn($request);
 
         $indexLogRequestContract->shouldReceive("hasUuids")->once()->withNoArgs()->andReturn(true);
         $indexLogRequestContract->shouldReceive('getUuids')->once()->withNoArgs()->andReturn(collect());

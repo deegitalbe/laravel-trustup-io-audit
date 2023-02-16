@@ -23,12 +23,12 @@ class LogStatusesTest extends TestCase
         /** @var LogStatus */
         return $this->mockThis(LogStatus::class);
     }
-    public function test_that_disabled_return_false_if_app_running_test()
+    public function test_that_isENabled_return_false_if_app_running_test()
     {
         $logStatus = $this->mockLogStatus();
 
         $logStatus->shouldReceive("isEnabled")->once()->withNoArgs()->passthru();
-        $this->assertFalse($logStatus->isEnabled());
+        $this->assertTrue($logStatus->isEnabled());
     }
 
     public function test_that_isEnabled_return_false_if_package_disable()

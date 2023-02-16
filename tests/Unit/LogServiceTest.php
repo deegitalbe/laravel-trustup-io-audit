@@ -87,6 +87,7 @@ class LogServiceTest extends TestCase
 
     public function test_that_it_can_store_a_model()
     {
+        TrustupIoAudit::mock();
         $str = "2";
         $eventName = "test_event";
 
@@ -104,6 +105,7 @@ class LogServiceTest extends TestCase
         $request->shouldReceive('setAppKey')->once()->with($str)->andReturnSelf();
         $request->shouldReceive('setAccountUuid')->once()->with($str)->andReturnSelf();
         $request->shouldReceive('setImpersonatedBy')->once()->with($str)->andReturnSelf();
+        $request->shouldReceive('setLoggedAt')->once()->withNoArgs()->andReturnSelf();
 
         $logService->shouldReceive('getAdapter')->times(5)->withNoArgs()->andReturn($logServiceAdapater);
 
