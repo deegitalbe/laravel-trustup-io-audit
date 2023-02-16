@@ -43,8 +43,6 @@ class LogEndpointTest extends TestCase
         return $this->mockThis(LogEndpoint::class);
     }
 
-
-
     /**
      * Mocking StoreLogRequestContract.
      *

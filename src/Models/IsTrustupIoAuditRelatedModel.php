@@ -33,7 +33,7 @@ trait IsTrustupIoAuditRelatedModel
      * Register Observer on static from trait in added models.
      */
     public static function bootIsTrustupIoAuditRelatedModel()
-    {   // deactivate observer with LoStatus
+    {   // deactivate observer with LogStatusContrat
         /** @var LogStatusContract */
         $logStatus = app()->make(LogStatusContrat::class);
         if ($logStatus->isDisabled()) return;

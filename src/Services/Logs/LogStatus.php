@@ -13,23 +13,22 @@ class LogStatus implements LogStatusContrat
     protected static bool $isEnabledInTests = false;
 
     /**
-     * Enable mock
+     * Mocking LogStatusCOntract.
+     *
+     * @return LogServiceContract|MockInterface
      */
+
     public function mock(): MockInterface
     {
-        self::$isEnabledInTests = true;
+        $this->setIsEnableInTests(true);
+        /** @var MockInterface */
+        $mock = Mockery::mock(LogServiceContract::class);
 
-        return app()->instance(
-            LogServiceContract::class,
-            Mockery::mock(LogServiceContract::class, function (MockInterface $mock) {
-                return $mock;
-            })
-        );
-    }
+        app()->singleton(LogServiceContract::class, function ($app) use ($mock) {
+            return $mock;
+        });
 
-    public function getAppEnv(): string
-    {
-        return app()->environment();
+        return $mock;
     }
 
     public function enable(): void
@@ -59,5 +58,11 @@ class LogStatus implements LogStatusContrat
     public function isDisabled(): bool
     {
         return !$this->isEnabled();
+    }
+
+    protected function setIsEnableInTests(bool $isEnabledInTests): self
+    {
+        self::$isEnabledInTests = $isEnabledInTests;
+        return $this;
     }
 }

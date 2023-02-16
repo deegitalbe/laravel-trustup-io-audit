@@ -39,8 +39,6 @@ class TrustupioAuditRelatedMigrationsTest extends TestCase
         $this->assertDatabaseHas("users", ["trustup_io_audit_log_uuids" => null]);
     }
 
-
-    // MIGHT BE USEFULL
     protected function createUser(): User
     {
         $user = new User();

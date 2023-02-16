@@ -2,17 +2,17 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Observers;
 
-use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogService;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\HasTrustupIoAuditLogRelationContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelWithRelationsContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
 use Illuminate\Database\Eloquent\Model;
 
 class TrustupIoAuditRelatedObserver
 {
 
 
-    public function __construct(protected LogService $service)
+    public function __construct(protected LogServiceContract $service)
     {
         $this->service = $service;
     }

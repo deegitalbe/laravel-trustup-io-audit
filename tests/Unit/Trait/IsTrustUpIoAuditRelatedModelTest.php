@@ -2,13 +2,14 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit;
 
-
+use Deegitalbe\LaravelTrustupIoAudit\Facades\TrustupIoAudit;
 use Mockery\MockInterface;
 use Henrotaym\LaravelTestSuite\TestSuite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\Models\User;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
+use Illuminate\Events\Dispatcher;
 
 class IsTrustupIoAuditRelatedModelTest extends TestCase
 {
@@ -41,5 +42,33 @@ class IsTrustupIoAuditRelatedModelTest extends TestCase
         $class->shouldReceive("getMorphClass")->once()->withNoArgs()->andReturn("app\\model\\test");
         $class->shouldReceive("getTrustupIoAuditModelType")->once()->withNoArgs()->passthru();
         $this->assertEquals("app-model-test", $class->getTrustupIoAuditModelType());
+    }
+
+
+    public function test_that_boot_is_trustup_io_audit_related_Model_boot_on_model()
+    {
+        // https://stackoverflow.com/a/36771173
+        $user = $this->mockUser()->makePartial();
+        $user->shouldReceive('bootIsTrustupIoAuditRelatedModel')->once();
+        $user->__construct();
+        // ASSERT THAT BOOT REGISTERED EVENT ON MODEL
+    }
+
+
+    public function test_that_boot_is_trustup_io_audit_related_Model_boot_on_model_and_register_liostener()
+    {
+        // https://stackoverflow.com/a/36771173
+        $user = $this->mockUser()->makePartial();
+        $mode = $this->mockThis(TrustupIoAuditRelatedModelContract::class);
+        $user->shouldReceive('bootIsTrustupIoAuditRelatedModel')->once();
+        $user->__construct();
+        // $user::created($mode);
+        // ASSERT THAT BOOT REGISTERED EVENT ON MODEL
+    }
+
+    protected function createUser(): User
+    {
+        $user = new User();
+        return $user->create(["id" => random_int(1, 30), "name" => "plop", "email" => "plop", "password" => "plop"]);
     }
 }

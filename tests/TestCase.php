@@ -24,6 +24,10 @@ class TestCase extends VersionablePackageTestCase
         ];
     }
 
+
+    // DEFINE TRAIT WITH MIGRATIONS TO TEST THAT NEED IT
+    // TEST FEATURE OF BOTH TRAIT RELATED MODEL
+    // BOOT UNITAIRE TEST
     public function defineDatabaseMigrations()
     {
         // $this->loadLaravelMigrations(['--database' => 'testbench']);
