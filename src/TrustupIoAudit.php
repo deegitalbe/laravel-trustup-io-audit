@@ -56,7 +56,8 @@ class TrustupIoAudit extends VersionablePackage implements TrustupIoAuditContrac
 
         if (app()->environment('TRUSTUP_IO_AUDIT_URL')) return app()->environment('TRUSTUP_IO_AUDIT_URL');
         if ($this->getEnv() === "staging") return  "staging-trustup-io-audit";
-        if ($this->getEnv() === "locale") return  "trustup-io-audit";
+        if ($this->getEnv() === "local") return  "trustup-io-audit";
+        if ($this->getEnv() === "testing") return  "trustup-io-audit";
         if ($this->getEnv() === "production") return  "production-staging-trustup-io-audit";
     }
 

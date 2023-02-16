@@ -35,9 +35,8 @@ class LogService implements LogServiceContract
 
     public function storeModel(string $eventName, TrustupIoAuditRelatedModelContract $model): ?string
     {
-        /** @var StoreLogRequest */
-        $request = app()->make(StoreLogRequest::class);
-
+        /** @var StoreLogRequestContract */
+        $request = app()->make(StoreLogRequestContract::class);
         $request->setEventName($eventName)
             ->setPayload($model->getTrustupIoAuditPayload())
             ->setModelId($model->getTrustupIoAuditModelId())
@@ -48,7 +47,6 @@ class LogService implements LogServiceContract
             ->setAccountUuid($this->getAdapter()->getAccountUuid())
             ->setLoggedAt()
             ->setImpersonatedBy($this->getAdapter()->getImpersonatedBy());
-
         return  $this->storeRequest($request);
     }
 
