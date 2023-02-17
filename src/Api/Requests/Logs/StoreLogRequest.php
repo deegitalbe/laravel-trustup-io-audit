@@ -184,7 +184,7 @@ class StoreLogRequest implements StoreLogRequestContract
         $this->setAppKey($attributes["app_key"] ?? null);
         $this->setModelId($attributes["model_id"] ?? null);
         $this->setModelType($attributes["model_type"] ?? null);
-        $this->setPayload(json_decode($attributes["payload"], true));
+        $this->setPayload(json_decode($attributes["payload"], true) ?? null);
         $this->setLoggedAt($attributes["logged_at"] ?? null);
         $this->setAccountUuid($attributes["account_uuid"] ?? null);
         $this->setImpersonatedBy($attributes["impersonated_by"] ?? null);

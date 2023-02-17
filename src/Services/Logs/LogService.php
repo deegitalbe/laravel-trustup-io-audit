@@ -53,11 +53,10 @@ class LogService implements LogServiceContract
 
     public function storeAttributes(string $eventName, array $attributes): ?string
     {
-        /** @var StoreLogRequest */
-        $request = app()->make(StoreLogRequest::class);
+        /** @var StoreLogRequestContract */
+        $request = app()->make(StoreLogRequestContract::class);
 
         $request->setEventName($eventName)->setLoggedAt()->fromArray($attributes);
-
         return  $this->storeRequest($request);
     }
 
@@ -66,9 +65,10 @@ class LogService implements LogServiceContract
     {   // set uuid on request before calling endpoint.
         /** @var LogStatusContrat */
         $logStatus = app()->make(LogStatusContrat::class);
+        // IN UPDATED IS DISABLED IS FALSE ?????
         if ($logStatus->isDisabled()) return null;
         $uuid = $request->getUuid();
-        CallLogEndpoint::dispatch($this->getEndpoint(), $request);
+        CallLogEndpoint::dispatch($request);
         return $uuid;
     }
 }

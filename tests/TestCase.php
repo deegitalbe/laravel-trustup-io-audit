@@ -7,6 +7,7 @@ use Henrotaym\LaravelApiClient\Providers\ClientServiceProvider;
 use Henrotaym\LaravelPackageVersioning\Testing\VersionablePackageTestCase;
 use Deegitalbe\LaravelTrustupIoAudit\Providers\LaravelTrustupIoAuditServiceProvider;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\database\migrations\CreateUsersTable;
+use Deegitalbe\LaravelTrustupIoExternalModelRelations\Providers\LaravelTrustupIoExternalModelRelationsServiceProvider;
 
 class TestCase extends VersionablePackageTestCase
 {
@@ -20,6 +21,7 @@ class TestCase extends VersionablePackageTestCase
 
         return [
             LaravelTrustupIoAuditServiceProvider::class,
+            LaravelTrustupIoExternalModelRelationsServiceProvider::class,
             ClientServiceProvider::class,
         ];
     }
@@ -36,14 +38,13 @@ class TestCase extends VersionablePackageTestCase
 
     protected function getEnvironmentSetUp($app)
     {
-        include_once __DIR__ . '/Unit/database/migrations/create_users_table.php';
-        app()->make(CreateUsersTable::class)->up();
-
         // $app['config']->set('database.default', 'testbench');
         // $app['config']->set('database.connections.testbench', [
         //     'driver'   => 'sqlite',
         //     'database' => ':memory:',
         //     'prefix'   => '',
         // ]);
+        include_once __DIR__ . '/Unit/database/migrations/create_users_table.php';
+        app()->make(CreateUsersTable::class)->up();
     }
 }

@@ -24,10 +24,10 @@ class LogStatusesTest extends TestCase
         /** @var LogStatusCOntract */
         return $this->mockThis(LogStatusCOntract::class);
     }
-    public function test_that_isENabled_return_false_if_app_running_test()
+    public function test_that_is_enabled_return_true_if_app_running_test()
     {
         $logStatus = app()->make(LogStatusContrat::class);
-        $this->assertFalse($logStatus->isEnabled());
+        $this->assertTrue($logStatus->isEnabled());
     }
 
     public function test_that_isEnabled_return_false_if_explicitly_disabled()
@@ -38,9 +38,10 @@ class LogStatusesTest extends TestCase
         $this->assertFalse($logStatus->isEnabled());
     }
 
-    public function test_that_isEnabled_return_true()
+    public function test_that_is_enabled_return_true_if_enable_in_test()
     {
-        $logStatus = app()->make(LogStatusContrat::class);
+        $logStatus = app()->make(LogStatus::class);
+        // $this->setPrivateProperty('isEnabled', false, $logStatus);
         $this->setPrivateProperty('isEnabledInTests', true, $logStatus);
         $this->assertTrue($logStatus->isEnabled());
     }
@@ -82,7 +83,7 @@ class LogStatusesTest extends TestCase
     public function test_that_set_is_enabled_can_set_static_property_is_enabled()
     {
         $logstatus = app()->make(LogStatus::class);
-        $logstatus->setIsEnabled(false);
+        $this->callPrivateMethod('setIsEnabled', $logstatus, false);
         $this->assertFalse($this->getPrivateProperty('isEnabled', $logstatus));
     }
 

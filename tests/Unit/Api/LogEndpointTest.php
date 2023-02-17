@@ -82,9 +82,12 @@ class LogEndpointTest extends TestCase
         $request->shouldReceive('setUrl')->once()->with("logs")->andReturnSelf();
         $request->shouldReceive('addData')->once()->with([])->andReturnSelf();
         $endpoint->shouldReceive("newRequest")->once()->withNoArgs()->andReturn($request);
+
         $endpoint->shouldReceive('store')->once()->with($storeLogRequest)->passthru();
 
         $storeLogRequest->shouldReceive('toArray')->once()->withNoArgs()->andReturn([]);
+        $tryResponse->shouldReceive("failed")->once()->withNoArgs()->andReturnFalse();
+        // $tryResponse->shouldReceive("error")->once()->withNoArgs()->andReturn();
 
         $client->shouldReceive('try')->once()->with($request, "Cannot store log")->andReturn($tryResponse);
 

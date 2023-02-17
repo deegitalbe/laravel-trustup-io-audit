@@ -155,7 +155,7 @@ class LogServiceTest extends TestCase
         $request = $this->mockLogStoreLogRequest();
 
         $request->shouldReceive('getUuid')->once()->withNoArgs()->andReturn($str);
-        $logService->shouldReceive('getEndpoint')->once()->withNoArgs()->andReturn($endpoint);
+
         $this->expectsJobs(CallLogEndpoint::class);
         $logService->shouldReceive('storeRequest')->once()->with($request)->passthru();
 

@@ -25,7 +25,7 @@ class StoreLogResponseTest extends TestCase
         $this->setPrivateProperty('response', $tryResponseContract, $model);
         $this->setPrivateProperty('uuid', $uuid, $model);
         $tryResponseContract->shouldReceive('response')->once()->withNoArgs()->andReturn($response);
-        $response->shouldReceive('get')->once()->withNoArgs()->andReturn($uuid);
+        $response->shouldReceive('get')->once()->withNoArgs()->andReturn($test);
         $this->assertEquals($uuid, $model->getUuid());
     }
 }

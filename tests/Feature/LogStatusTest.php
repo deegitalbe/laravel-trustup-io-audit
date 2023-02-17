@@ -13,13 +13,12 @@ use Deegitalbe\LaravelTrustupIoAudit\Facades\TrustupIoAudit as FacadesTrustupIoA
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
-use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogService;
+use Deegitalbe\LaravelTrustupIoAudit\Tests\traits\isUserWithRelated;
 use Faker\Generator as Faker;
-use Illuminate\Support\Facades\Bus;
 
 class LogStatusTest extends TestCase
 {
-    use InstallPackageTest, TestSuite, RefreshDatabase;
+    use InstallPackageTest, TestSuite, RefreshDatabase, isUserWithRelated;
 
 
     /**

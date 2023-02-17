@@ -53,34 +53,10 @@ class TrustupIoAuditRelatedObserver
         $this->addTorelated($uuid, $model);
     }
 
-    /**
-     * Handle the User "restored" event.
-     *
-     * @param  TrustupIoAuditRelatedModelContract  $model
-     * @return void
-     */
-    public function restored(TrustupIoAuditRelatedModelContract $model)
+    protected function addTorelated(?string $uuid, TrustupIoAuditRelatedModelContract|Model $model): void
     {
-        $uuid = $this->service->storeModel('restored', $model);
-        $this->addTorelated($uuid, $model);
-    }
-
-    /**
-     * Handle the User "forceDeleted" event.
-     *
-     * @param  TrustupIoAuditRelatedModelContract  $model
-     * @return void
-     */
-    public function forceDeleted(TrustupIoAuditRelatedModelContract $model)
-    {
-        $uuid = $this->service->storeModel('forceDeleted', $model);
-        $this->addTorelated($uuid, $model);
-    }
-
-
-    protected function addTorelated(string $uuid, TrustupIoAuditRelatedModelContract|Model $model): void
-    {
-        $model::withoutEvents(function () use ($uuid, $model) {
+        // TODO TEST // KILL EVENT TO AVOID CALLING STATIC METHOD
+        $model->withoutEvents(function () use ($uuid, $model) {
             if (!$uuid) return;
             if (!$model instanceof TrustupIoAuditRelatedModelWithRelationsContract) return;
             $model->trustupIoAuditLogs()->addToRelatedModelsByIds($uuid);

@@ -2,14 +2,12 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit;
 
-use Deegitalbe\LaravelTrustupIoAudit\Facades\TrustupIoAudit;
 use Mockery\MockInterface;
 use Henrotaym\LaravelTestSuite\TestSuite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\Models\User;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
-use Illuminate\Events\Dispatcher;
 
 class IsTrustupIoAuditRelatedModelTest extends TestCase
 {
@@ -51,6 +49,7 @@ class IsTrustupIoAuditRelatedModelTest extends TestCase
         $user = $this->mockUser()->makePartial();
         $user->shouldReceive('bootIsTrustupIoAuditRelatedModel')->once();
         $user->__construct();
+        // MOKC OBSERVER
         // ASSERT THAT BOOT REGISTERED EVENT ON MODEL
     }
 
@@ -64,11 +63,5 @@ class IsTrustupIoAuditRelatedModelTest extends TestCase
         $user->__construct();
         // $user::created($mode);
         // ASSERT THAT BOOT REGISTERED EVENT ON MODEL
-    }
-
-    protected function createUser(): User
-    {
-        $user = new User();
-        return $user->create(["id" => random_int(1, 30), "name" => "plop", "email" => "plop", "password" => "plop"]);
     }
 }
