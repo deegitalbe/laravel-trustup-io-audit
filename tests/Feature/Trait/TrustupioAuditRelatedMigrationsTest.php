@@ -29,8 +29,10 @@ class TrustupioAuditRelatedMigrationsTest extends TestCase
 
     public function test_that_it_can_add_audit_column_migration_with_trait()
     {
+        $this->migrateWithourRelation();
         /** assert that model have column audit */
         $user = $this->createUser();
+        $this->be($user);
         $this->assertDatabaseHas("users", ["trustup_io_audit_log_uuids" => null]);
     }
 }

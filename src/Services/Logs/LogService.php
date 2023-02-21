@@ -65,7 +65,6 @@ class LogService implements LogServiceContract
     {   // set uuid on request before calling endpoint.
         /** @var LogStatusContrat */
         $logStatus = app()->make(LogStatusContrat::class);
-        // IN UPDATED IS DISABLED IS FALSE ?????
         if ($logStatus->isDisabled()) return null;
         $uuid = $request->getUuid();
         CallLogEndpoint::dispatch($request);

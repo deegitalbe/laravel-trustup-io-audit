@@ -6,7 +6,6 @@ use Deegitalbe\LaravelTrustupIoAudit\TrustupIoAudit;
 use Henrotaym\LaravelApiClient\Providers\ClientServiceProvider;
 use Henrotaym\LaravelPackageVersioning\Testing\VersionablePackageTestCase;
 use Deegitalbe\LaravelTrustupIoAudit\Providers\LaravelTrustupIoAuditServiceProvider;
-use Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\database\migrations\CreateUsersTable;
 use Deegitalbe\LaravelTrustupIoExternalModelRelations\Providers\LaravelTrustupIoExternalModelRelationsServiceProvider;
 
 class TestCase extends VersionablePackageTestCase
@@ -45,6 +44,6 @@ class TestCase extends VersionablePackageTestCase
         //     'prefix'   => '',
         // ]);
         include_once __DIR__ . '/Unit/database/migrations/create_users_table.php';
-        app()->make(CreateUsersTable::class)->up();
+        include_once __DIR__ . '/Unit/database/migrations/create_users_with_relations_table.php';
     }
 }

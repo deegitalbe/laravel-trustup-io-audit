@@ -20,7 +20,6 @@ class LogStatusTest extends TestCase
 {
     use InstallPackageTest, TestSuite, RefreshDatabase, isUserWithRelated;
 
-
     /**
      * Mocking LogServiceContract.
      *
@@ -70,7 +69,6 @@ class LogStatusTest extends TestCase
         /** Creating user that implements trait to trigger the observer */
         $request = $this->mockThis(StoreLogRequestContract::class);
         $request->shouldNotReceive("storeRequest");
-
         $this->createUser();
     }
 
@@ -85,6 +83,8 @@ class LogStatusTest extends TestCase
 
     protected function createUser(): User
     {
+        $this->migrateWithourRelation();
+
         $fake = app()->make(Faker::class);
         $user = new User();
         return $user->create(["id" => random_int(1, 30), "name" => "plop", "email" => "plop", "password" => "plop"]);

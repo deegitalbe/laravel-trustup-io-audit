@@ -11,6 +11,8 @@ use Deegitalbe\LaravelTrustupIoAudit\Tests\traits\isUserWithRelated;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\traits\isUserWithRelatedTest;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\Models\UserWithRelations;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
+use Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\database\migrations\CreateUsersWithRelationsTable;
+
 
 
 
@@ -20,14 +22,18 @@ class IsTrustupIoAuditRelatedModelWithRelationsTest extends TestCase
 
     public function test_that_it_can_save_log_with_related_model_with_relaion_saved_log_uuids()
     {
+        $this->migrateRelation();
+
         /** @var LogStatus */
         $logStatus = app()->make(LogStatus::class);
-        $this->be(new UserWithRelations(["id" => 2]));
         $this->callPrivateMethod('setIsEnableInTests', $logStatus, true);
+
+        $this->be(new UserWithRelations(["id" => 2]));
         $user = $this->createUserWithRelation();
-        $user = UserWithRelations::get();
-        $this->assertDatabaseHas("users", [
-            "trustup_io_audit_log_uuids" => ''
+
+        $user = UserWithRelations::get()->first();
+        $this->assertDatabaseHas("users_with_relations", [
+            "trustup_io_audit_log_uuids" => json_encode($user->trustup_io_audit_log_uuids)
         ]);
     }
 }

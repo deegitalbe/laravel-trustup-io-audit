@@ -28,7 +28,7 @@ class IsTrustupIoAuditRelatedModelTest extends TestCase
     public function test_that_it_can_get_trustup_io_audit_related_model_id()
     {
         $class = $this->mockUser();
-        $this->setPrivateProperty('uuid', "test", $class);
+        // $this->setPrivateProperty('uuid', "test", $class);
         $class->shouldReceive("getTrustupIoAuditModelId")->once()->withNoArgs()->passthru();
         $this->assertEquals("test", $class->getTrustupIoAuditModelId());
     }

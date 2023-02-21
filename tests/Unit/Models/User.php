@@ -10,6 +10,8 @@ use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModel
 class User extends BaseUser implements TrustupIoAuditRelatedModelContract
 {
     use IsTrustupIoAuditRelatedModel, SoftDeletes;
+    protected $table = "users";
+    protected $uuid = "test";
     protected $fillable = ["id", "name", "email", "password", "uuid"];
 
     public function getTrustupIoAuditPayload(): array

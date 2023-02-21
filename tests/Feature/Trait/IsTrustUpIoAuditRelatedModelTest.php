@@ -35,14 +35,14 @@ class IsTrustupIoAuditRelatedModelTest extends TestCase
 
     public function test_that_it_can_save_log_with_related_model_store_model()
     {
+        $this->migrateWithourRelation();
         $logStatus = app()->make(LogStatus::class);
         /** set auth user for getResponsible id  */
         $this->callPrivateMethod('setIsEnableInTests', $logStatus, true);
-        Http::fake();
+        // Http::fake();
 
-        $this->be(new User(["id" => 2]));
-        /** Enable log in test */
         /** Create User */
+        $this->be(new User(["id" => 2]));
         $endpoint = $this->mockThis(LogEndpoint::class);
 
         $endpoint->shouldReceive("store")->withArgs(function (StoreLogRequestContract $storeLogRequest) {
@@ -54,6 +54,9 @@ class IsTrustupIoAuditRelatedModelTest extends TestCase
 
     public function test_that_it_can_save_log_with_related_model_from_array()
     {
+        $this->migrateWithourRelation();
+
+        // $this->be(new User(["id" => 2]));
         $user = $this->createUser()->getAttributes();
         $user["payload"] = json_encode($user);
         $user["responsible_id"] = "1";
@@ -63,10 +66,11 @@ class IsTrustupIoAuditRelatedModelTest extends TestCase
         /** Enable log in test */
         $logStatus = app()->make(LogStatus::class);
         $this->callPrivateMethod('setIsEnableInTests', $logStatus, true);
-        Http::fake();
+        // Http::fake();
 
         $endpoint = $this->mockThis(LogEndpointContract::class);
         $endpoint->shouldReceive("store")->once()->withArgs(function (StoreLogRequestContract $storeLogRequest) {
+            dd($storeLogRequest);
             return $storeLogRequest->getEventName() == "created" && $storeLogRequest->getAppKey() == "test-key";
         });
 

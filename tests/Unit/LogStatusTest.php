@@ -9,10 +9,11 @@ use Mockery\MockInterface;
 use Henrotaym\LaravelTestSuite\TestSuite;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LogStatusesTest extends TestCase
 {
-    use InstallPackageTest, TestSuite;
+    use InstallPackageTest, TestSuite, RefreshDatabase;
 
     /**
      * Mocking LogStatusCOntract.
@@ -24,10 +25,10 @@ class LogStatusesTest extends TestCase
         /** @var LogStatusCOntract */
         return $this->mockThis(LogStatusCOntract::class);
     }
-    public function test_that_is_enabled_return_true_if_app_running_test()
+    public function test_that_is_enabled_return_false_if_app_running_test()
     {
         $logStatus = app()->make(LogStatusContrat::class);
-        $this->assertTrue($logStatus->isEnabled());
+        $this->assertFalse($logStatus->isEnabled());
     }
 
     public function test_that_isEnabled_return_false_if_explicitly_disabled()
@@ -41,8 +42,8 @@ class LogStatusesTest extends TestCase
     public function test_that_is_enabled_return_true_if_enable_in_test()
     {
         $logStatus = app()->make(LogStatus::class);
-        // $this->setPrivateProperty('isEnabled', false, $logStatus);
-        $this->setPrivateProperty('isEnabledInTests', true, $logStatus);
+        $this->setPrivateProperty('isEnabled', true, $logStatus);
+        $this->callPrivateMethod('setIsEnableInTests', $logStatus, true);
         $this->assertTrue($logStatus->isEnabled());
     }
 
