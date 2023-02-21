@@ -4,7 +4,7 @@ namespace Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs;
 
 use Mockery\MockInterface;
 
-interface LogStatusContrat
+interface LogStatusContract
 {
     public function enable(): void;
 

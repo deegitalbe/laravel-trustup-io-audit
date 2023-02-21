@@ -24,5 +24,5 @@ interface TrustupIoAuditContract extends VersionablePackageContract, AutoRegistr
     public function storeRequest(StoreLogRequestContract $request): ?string;
 
     /** return url from env */
-    public function getApiUrl(): string;
+    public function getUrl(): string;
 }

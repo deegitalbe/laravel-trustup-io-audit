@@ -9,12 +9,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\Models\User;
 use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogStatus;
-use Deegitalbe\LaravelTrustupIoAudit\Api\Endpoints\Logs\LogEndpoint;
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
-use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogService;
+use Deegitalbe\LaravelTrustupIoAudit\Api\Endpoints\Logs\LogEndpoint;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\traits\isUserWithRelated;
+use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
 
 class IsTrustupIoAuditRelatedModelTest extends TestCase
 {
@@ -35,8 +36,8 @@ class IsTrustupIoAuditRelatedModelTest extends TestCase
 
     public function test_that_it_can_save_log_with_related_model_store_model()
     {
-        $this->migrateWithourRelation();
-        $logStatus = app()->make(LogStatus::class);
+        $this->migrateUserWithoutRelations();
+        $logStatus = app()->make(LogStatusContract::class);
         /** set auth user for getResponsible id  */
         $this->callPrivateMethod('setIsEnableInTests', $logStatus, true);
         // Http::fake();
@@ -48,29 +49,28 @@ class IsTrustupIoAuditRelatedModelTest extends TestCase
         $endpoint->shouldReceive("store")->withArgs(function (StoreLogRequestContract $storeLogRequest) {
             return $storeLogRequest->getModelId() === 'test' && $storeLogRequest->getModelType() === "deegitalbe-laraveltrustupioaudit-tests-unit-models-user";
         })->once();
-        $user = $this->createUser();
+        $user = $this->createUserWithoutRelation();
     }
 
 
     public function test_that_it_can_save_log_with_related_model_from_array()
     {
-        $this->migrateWithourRelation();
+        $this->migrateUserWithoutRelations();
 
         // $this->be(new User(["id" => 2]));
-        $user = $this->createUser()->getAttributes();
+        $user = $this->createUserWithoutRelation()->getAttributes();
         $user["payload"] = json_encode($user);
         $user["responsible_id"] = "1";
         $user["responsible_type"] = "test";
         $user["app_key"] = 'test-key';
 
         /** Enable log in test */
-        $logStatus = app()->make(LogStatus::class);
+        $logStatus = app()->make(LogStatusContract::class);
         $this->callPrivateMethod('setIsEnableInTests', $logStatus, true);
         // Http::fake();
 
         $endpoint = $this->mockThis(LogEndpointContract::class);
         $endpoint->shouldReceive("store")->once()->withArgs(function (StoreLogRequestContract $storeLogRequest) {
-            dd($storeLogRequest);
             return $storeLogRequest->getEventName() == "created" && $storeLogRequest->getAppKey() == "test-key";
         });
 

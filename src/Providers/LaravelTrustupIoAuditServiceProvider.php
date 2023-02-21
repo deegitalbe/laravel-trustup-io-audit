@@ -13,7 +13,7 @@ use Deegitalbe\LaravelTrustupIoAudit\Api\Requests\Logs\IndexLogRequest;
 use Deegitalbe\LaravelTrustupIoAudit\Api\Requests\Logs\StoreLogRequest;
 use Deegitalbe\LaravelTrustupIoAudit\Api\Responses\Logs\IndexLogResponse;
 use Deegitalbe\LaravelTrustupIoAudit\Api\Responses\Logs\StoreLogResponse;
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContrat;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContract;
 use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\Adapters\LogServiceAdapter;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
@@ -44,7 +44,7 @@ class LaravelTrustupIoAuditServiceProvider extends VersionablePackageServiceProv
         $this->app->bind(IndexLogRequestContract::class, IndexLogRequest::class);
         $this->app->bind(IndexLogResponseContract::class, IndexLogResponse::class);
         $this->app->bind(LogResponseContract::class, LogResponse::class);
-        $this->app->bind(LogStatusContrat::class, LogStatus::class);
+        $this->app->singleton(LogStatusContract::class, LogStatus::class);
     }
 
     protected function addToBoot(): void

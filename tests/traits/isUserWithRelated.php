@@ -10,7 +10,7 @@ use Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\database\migrations\CreateUsersW
 
 trait isUserWithRelated
 {
-    public function createUser(): User
+    public function createUserWithoutRelation(): User
     {
         $user = new User();
         return $user->create(["name" => "plop", "email" => "plop", "password" => "plop", "uuid" => "test"]);
@@ -22,18 +22,13 @@ trait isUserWithRelated
         return $user->create(["name" => "plop", "email" => "plop", "password" => "plop", "uuid" => "test"]);
     }
 
-    public function migrateRelation(): void
+    public function migrateUserWithRelations(): void
     {
         app()->make(CreateUsersWithRelationsTable::class)->up();
     }
 
-    public function migrateWithourRelation(): void
+    public function migrateUserWithoutRelations(): void
     {
         app()->make(CreateUsersTable::class)->up();
     }
-
-    // DEFINE TRAIT WITH MIGRATIONS TO TEST THAT NEED IT
-    // TEST FEATURE OF BOTH TRAIT RELATED MODEL
-    // BOOT UNITAIRE TEST
-
 }

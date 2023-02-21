@@ -11,6 +11,6 @@ class LogCredential extends JsonCredential
     public function prepare(RequestContract &$request)
     {
         parent::prepare($request);
-        $request->setBaseUrl(TrustupIoAudit::getApiUrl() . '/api');
+        $request->setBaseUrl(TrustupIoAudit::getUrl() . '/api');
     }
 }

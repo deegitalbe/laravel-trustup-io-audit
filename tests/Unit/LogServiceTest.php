@@ -13,6 +13,7 @@ use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\Adapters\LogServiceAdapterContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContract;
 use Deegitalbe\LaravelTrustupIoAudit\Facades\TrustupIoAudit;
 
 class LogServiceTest extends TestCase

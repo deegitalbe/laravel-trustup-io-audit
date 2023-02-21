@@ -9,7 +9,7 @@ use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\Models\User;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
 use Deegitalbe\LaravelTrustupIoAudit\Observers\TrustupIoAuditRelatedObserver;
-use Deegitalbe\LaravelTrustupIoAudit\Facades\TrustupIoAudit as FacadesTrustupIoAudit;
+use Deegitalbe\LaravelTrustupIoAudit\Facades\TrustupIoAudit;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
@@ -69,21 +69,21 @@ class LogStatusTest extends TestCase
         /** Creating user that implements trait to trigger the observer */
         $request = $this->mockThis(StoreLogRequestContract::class);
         $request->shouldNotReceive("storeRequest");
-        $this->createUser();
+        $this->createUserWithoutRelation();
     }
 
     public function test_that_log_service_can_trigger_if_enable()
     {
         $str = "test";
-        $mock = FacadesTrustupIoAudit::mock();
+        $mock = TrustupIoAudit::mock();
         $model = $this->mockTrustupIoAuditRelatedModelContract();
         $mock->shouldReceive("storeModel")->once()->with("created", $model)->andReturn($str);
         $mock->storeModel("created", $model);
     }
 
-    protected function createUser(): User
+    protected function createUserWithoutRelation(): User
     {
-        $this->migrateWithourRelation();
+        $this->migrateUserWithoutRelations();
 
         $fake = app()->make(Faker::class);
         $user = new User();

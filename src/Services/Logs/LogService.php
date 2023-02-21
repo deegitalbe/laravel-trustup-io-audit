@@ -10,7 +10,7 @@ use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointCon
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\Adapters\LogServiceAdapterContract;
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContrat;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContract;
 
 class LogService implements LogServiceContract
 {
@@ -63,8 +63,8 @@ class LogService implements LogServiceContract
     // dispatch job that triggers endpoint.
     public function storeRequest(StoreLogRequestContract $request): ?string
     {   // set uuid on request before calling endpoint.
-        /** @var LogStatusContrat */
-        $logStatus = app()->make(LogStatusContrat::class);
+        /** @var LogStatusContract */
+        $logStatus = app()->make(LogStatusContract::class);
         if ($logStatus->isDisabled()) return null;
         $uuid = $request->getUuid();
         CallLogEndpoint::dispatch($request);

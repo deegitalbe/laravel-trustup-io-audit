@@ -3,7 +3,7 @@
 namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit;
 
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContrat;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContract;
 use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogStatus;
 use Mockery\MockInterface;
 use Henrotaym\LaravelTestSuite\TestSuite;
@@ -27,13 +27,17 @@ class LogStatusesTest extends TestCase
     }
     public function test_that_is_enabled_return_false_if_app_running_test()
     {
-        $logStatus = app()->make(LogStatusContrat::class);
+        $logStatus = app()->make(LogStatusContract::class);
+        // dd([
+        //     "enabled" => $this->getPrivateProperty("isEnabled", $logStatus),
+        //     "enabledInTests" => $this->getPrivateProperty("isEnabledInTests", $logStatus)
+        // ]);
         $this->assertFalse($logStatus->isEnabled());
     }
 
     public function test_that_isEnabled_return_false_if_explicitly_disabled()
     {
-        $logStatus = app()->make(LogStatusContrat::class);
+        $logStatus = app()->make(LogStatusContract::class);
         $this->setPrivateProperty('isEnabledInTests', true, $logStatus);
         $this->setPrivateProperty('isEnabled', false, $logStatus);
         $this->assertFalse($logStatus->isEnabled());
@@ -50,8 +54,8 @@ class LogStatusesTest extends TestCase
     public function test_that_it_can_mock()
     {
 
-        /** @var LogStatusContrat */
-        $logStatus = app()->make(LogStatusContrat::class);
+        /** @var LogStatusContract */
+        $logStatus = app()->make(LogStatusContract::class);
         $mock = $logStatus->mock();
         /** @var LogServiceContract */
         $logService = app()->make(LogServiceContract::class);

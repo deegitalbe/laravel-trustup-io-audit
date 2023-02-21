@@ -6,12 +6,11 @@ use Mockery;
 use Mockery\MockInterface;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
-use Illuminate\Support\Facades\Log;
 
-class LogStatus implements LogStatusContract
+class LogStatusSave implements LogStatusContract
 {
-    protected bool $isEnabled = true;
-    protected bool $isEnabledInTests = false;
+    protected static bool $isEnabled = true;
+    protected static bool $isEnabledInTests = false;
 
     /**
      * Mocking LogStatusCOntract.
@@ -22,10 +21,12 @@ class LogStatus implements LogStatusContract
     public function mock(): MockInterface
     {
         $this->setIsEnableInTests(true);
-
         /** @var MockInterface */
         $mock = Mockery::mock(LogServiceContract::class);
-        app()->singleton(LogServiceContract::class, fn () => $mock);
+
+        app()->singleton(LogServiceContract::class, function ($app) use ($mock) {
+            return $mock;
+        });
 
         return $mock;
     }
@@ -42,15 +43,15 @@ class LogStatus implements LogStatusContract
 
     protected function setIsEnabled(bool $isEnabled): self
     {
-        $this->isEnabled = $isEnabled;
+        self::$isEnabled = $isEnabled;
 
         return $this;
     }
 
     public function isEnabled(): bool
     {
-        if (!$this->isEnabled) return false;
-        if (app()->runningUnitTests() && !$this->isEnabledInTests) return false;
+        if (!self::$isEnabled) return false;
+        if (app()->runningUnitTests() && !self::$isEnabledInTests) return false;
         return true;
     }
 
@@ -61,7 +62,7 @@ class LogStatus implements LogStatusContract
 
     protected function setIsEnableInTests(bool $isEnabledInTests): self
     {
-        $this->isEnabledInTests = $isEnabledInTests;
+        self::$isEnabledInTests = $isEnabledInTests;
         return $this;
     }
 }

@@ -4,18 +4,19 @@ namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit;
 
 use Mockery\MockInterface;
 use Henrotaym\LaravelTestSuite\TestSuite;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\Models\User;
 use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogStatus;
 use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\LogService;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\traits\isUserWithRelated;
+use Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\Models\UserWithRelations;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
 use Deegitalbe\LaravelTrustupIoAudit\Observers\TrustupIoAuditRelatedObserver;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
-use Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\Models\UserWithRelations;
 use Deegitalbe\LaravelTrustupIoExternalModelRelations\Contracts\Models\Relations\ExternalModelRelationContract;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TrustupIoAuditRelatedObserverTest extends TestCase
 {
@@ -56,27 +57,27 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
 
     public function test_that_observer_can_trigger_event_created()
     {
-        $this->migrateWithourRelation();
-        $logStatus = app()->make(LogStatus::class);
+        $this->migrateUserWithoutRelations();
+        $logStatus = app()->make(LogStatusContract::class);
         $this->setPrivateProperty('isEnabledInTests', true, $logStatus);
         $observer = $this->mockThis(TrustupIoAuditRelatedObserver::class);
         $observer->shouldReceive("created")->once()->withArgs(function (TrustupIoAuditRelatedModelContract $relatedModel) {
             // dd($relatedModel);
             return $relatedModel->name == "plop" && $relatedModel->email == "plop" && $relatedModel->password == "plop" && $relatedModel->uuid === "test";
         });
-        $this->createUser();
+        $this->createUserWithoutRelation();
     }
 
 
 
     public function test_that_observer_can_trigger_event_updated()
     {
-        $this->migrateWithourRelation();
-        $logStatus = app()->make(LogStatus::class);
+        $this->migrateUserWithoutRelations();
+        $logStatus = app()->make(LogStatusContract::class);
         $this->setPrivateProperty('isEnabledInTests', true, $logStatus);
 
         $this->be(new User(["id" => 2]));
-        $user = $this->createUser();
+        $user = $this->createUserWithoutRelation();
         $observer = $this->mockThis(TrustupIoAuditRelatedObserver::class);
 
         $observer->shouldReceive("updated")->once()->withArgs(function (TrustupIoAuditRelatedModelContract $relatedModel) {
@@ -88,11 +89,11 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
 
     public function test_that_observer_can_trigger_event_soft_delete()
     {
-        $this->migrateWithourRelation();
-        $logStatus = app()->make(LogStatus::class);
+        $this->migrateUserWithoutRelations();
+        $logStatus = app()->make(LogStatusContract::class);
         $this->setPrivateProperty('isEnabledInTests', true, $logStatus);
         $this->be(new User(["id" => 2]));
-        $user = $this->createUser();
+        $user = $this->createUserWithoutRelation();
 
         $observer = $this->mockThis(TrustupIoAuditRelatedObserver::class);
         $observer->shouldReceive("deleted")->once()->withArgs(function ($relatedModel) use ($user) {
@@ -103,11 +104,11 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
 
     public function test_that_observer_can_trigger_event_restored()
     {
-        $this->migrateWithourRelation();
-        $logStatus = app()->make(LogStatus::class);
+        $this->migrateUserWithoutRelations();
+        $logStatus = app()->make(LogStatusContract::class);
         $this->setPrivateProperty('isEnabledInTests', true, $logStatus);
         $this->be(new User(["id" => 2]));
-        $user = $this->createUser();
+        $user = $this->createUserWithoutRelation();
         $deleted = User::find($user->id)->delete();
 
         $observer = $this->mockThis(TrustupIoAuditRelatedObserver::class);
@@ -120,11 +121,11 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
 
     public function test_that_observer_can_trigger_event_force_deleted()
     {
-        $this->migrateWithourRelation();
-        $logStatus = app()->make(LogStatus::class);
+        $this->migrateUserWithoutRelations();
+        $logStatus = app()->make(LogStatusContract::class);
         $this->setPrivateProperty('isEnabledInTests', true, $logStatus);
         $this->be(new User(["id" => 2]));
-        $user = $this->createUser();
+        $user = $this->createUserWithoutRelation();
 
         $observer = $this->mockThis(TrustupIoAuditRelatedObserver::class);
         $observer->shouldReceive("deleted")->once()->withArgs(function ($relatedModel) use ($user) {
