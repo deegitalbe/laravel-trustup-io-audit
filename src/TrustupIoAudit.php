@@ -51,15 +51,10 @@ class TrustupIoAudit extends VersionablePackage implements TrustupIoAuditContrac
 
     public function getUrl(): string
     {
-        if (app()->environment('TRUSTUP_IO_AUDIT_URL')) return app()->environment('TRUSTUP_IO_AUDIT_URL');
-        if ($this->getEnv() === "staging") return  "staging-trustup-io-audit";
-        if ($this->getEnv() === "local") return  "trustup-io-audit";
-        if ($this->getEnv() === "testing") return  "trustup-io-audit";
-        if ($this->getEnv() === "production") return  "production-staging-trustup-io-audit";
-    }
+        if ($environmentUrl = env("TRUSTUP_IO_AUDIT_URL")) return $environmentUrl;
+        if (app()->environment("staging")) return "https://staging.audit.trustup.io";
+        if (app()->environment("production")) return "https://audit.trustup.io";
 
-    protected function getEnv(): string
-    {
-        return app()->environment();
+        return env("TRUSTUP_APP_KEY", "trustup-io-audit");
     }
 }
