@@ -153,7 +153,7 @@ class PostController extends Controller
 }
 ```
 
-## ⚡⚡ To easly implements your required column a trait is implemented for oyu migrations.
+## ⚡⚡ Migration relation trait.
 
 By default the column is set to trustup_io_audit_log_uuids but feel free to overide it.
 
@@ -204,7 +204,7 @@ class CreateUsersTable extends Migration
 }
 ```
 
-## ⚡⚡⚡ For testing purpose you can use the facade TrustupIoAudit.
+## ⚡⚡⚡ TrustupIoAudit facade for.
 
 To disable the log during your test you can simply do as below.
 
