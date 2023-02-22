@@ -22,6 +22,8 @@ Feel free to overide it's name if it enter in conflict with your project.
 trustup_io_audit_log_uuids
 ```
 
+##
+
 ## 🛠️ How to implements with relational model
 
 ```shell
@@ -44,6 +46,8 @@ class TicketExample extends AbstractModel implements TrustupIoAuditRelatedModelW
 }
 
 ```
+
+##
 
 ## 🛠️ Basic implementation without relational Model
 
@@ -101,7 +105,9 @@ class TicketExample extends AbstractModel implements TrustupIoAuditRelatedModelC
 
 ```
 
-## Exposing your models by creating a resource
+##
+
+## 🛠️ Exposing your models by creating a resource
 
 You can use a predefined ressource within the package for your logs.
 
@@ -133,6 +139,57 @@ class TicketExampleResource
             'created_at' => $this->created_at,
             'logs' => LogResource::collection($this->whenExternalRelationLoaded('trustupIoAuditLogs')),
         ];
+    }
+}
+```
+
+##
+
+## 🛠️ Default Adapter config.
+
+By default the config use the package Adapter to set some attributes.
+
+If you wish to make your own adapter you can override it in the config and you should implements the LogServiceAdapterContract.
+
+##
+
+```shell
+<?php
+
+namespace Deegitalbe\LaravelTrustupIoAudit\Services\Logs\Adapters;
+
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\Adapters\LogServiceAdapterContract;
+use Deegitalbe\LaravelTrustupIoAudit\Facades\TrustupIoAudit;
+
+class LogServiceAdapter implements LogServiceAdapterContract
+{
+    /** Application key */
+    public function getAppKey(): string
+    {
+        return TrustupIoAudit::getConfig("app_key");
+    }
+
+    /** Responsible identifier */
+    public function getResponsibleId(): string
+    {
+        return auth()->user()->id;
+    }
+
+    /** type of the responsible */
+    public function getResponsibleType(): string
+    {
+        return 'user';
+    }
+
+    /** account identifier */
+    public function getAccountUuid(): ?string
+    {
+        return null;
+    }
+    /** Case the log was impersonated by */
+    public function getImpersonatedBy(): ?string
+    {
+        return null;
     }
 }
 ```
@@ -209,15 +266,57 @@ class CreateUsersTable extends Migration
 To disable the log during your test you can simply do as below.
 
 ```shell
-    TrustupIoAudit::mock();
 
     /**
-     * Create User without triggering observer.
+    * Available methods.
+    */
+
+
+    public static function prefix(): string
+    {
+        return "laravel-trustup-io-audit";
+    }
+
+    /**
+    * Mock laravel audit log.
+    * Enabling logging during tests.
+    */
+    public function mock(): MockInterface
+    {
+        return $this->logStatus->mock();
+    }
+
+    /**
+     * Disable Logging
      */
+    public function disable(): void
+    {
+        $this->logStatus->disable();
+    }
 
-     User::create(["name"=> "test"]);
+    /**
+     * Enable Logging
+     */
+    public function enable(): void
+    {
+        $this->logStatus->enable();
+    }
 
+    /**
+     * Store given attributes as log manually.
+     */
+    public function storeAttributes(string $eventName, array $attributes): ?string
+    {
+        return $this->logService->storeAttributes($eventName, $attributes);
+    }
 
+     /**
+     * Store given requests as log manually.
+     */
+    public function storeRequest(StoreLogRequestContract $request): ?string
+    {
+        return $this->logService->storeRequest($request);
+    }
 
 ```
 
@@ -232,12 +331,12 @@ namespace Deegitalbe\LaravelTrustupIoAudit;
 
 ...
 
-  public function getApiUrl(): string
+    public function getUrl(): string
     {
-        if (app()->environment('TRUSTUP_IO_AUDIT_URL')) return app()->environment('TRUSTUP_IO_AUDIT_URL');
-        if ($this->getEnv() === "staging") return  "staging-trustup-io-audit";
-        if ($this->getEnv() === "local") return  "trustup-io-audit";
-        if ($this->getEnv() === "testing") return  "trustup-io-audit";
-        if ($this->getEnv() === "production") return  "production-staging-trustup-io-audit";
+        if ($environmentUrl = env("TRUSTUP_IO_AUDIT_URL")) return $environmentUrl;
+        if (app()->environment("staging")) return "https://staging.audit.trustup.io";
+        if (app()->environment("production")) return "https://audit.trustup.io";
+
+        return env("TRUSTUP_APP_KEY", "trustup-io-audit");
     }
 ```
