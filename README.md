@@ -149,7 +149,7 @@ class TicketExampleResource
 
 By default the config use the package Adapter to set some attributes.
 
-If you wish to make your own adapter you can override it in the config and you should implements the LogServiceAdapterContract.
+If you wish to make your own adapter you can overide it in the config and you should implements the LogServiceAdapterContract.
 
 ##
 
@@ -263,14 +263,9 @@ class CreateUsersTable extends Migration
 
 ## ⚡⚡⚡ TrustupIoAudit facade for.
 
-To disable the log during your test you can simply do as below.
+Available methods on the facade.
 
 ```shell
-
-    /**
-    * Available methods.
-    */
-
 
     public static function prefix(): string
     {
@@ -322,7 +317,7 @@ To disable the log during your test you can simply do as below.
 
 ## ⚡⚡⚡⚡ Note by default the package can guess on wich API it need to make request.
 
-So you don't need to specify any url but just you environement.
+So you don't need to specify any url but just your environement.
 
 ```shell
 <?php
