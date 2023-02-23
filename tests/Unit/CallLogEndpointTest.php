@@ -18,7 +18,7 @@ class CallLogEndpointTest extends TestCase
 
     /**
      * Mocking CallLogEndpoint.
-     * 
+     *
      * @return CallLogEndpoint|MockInterface
      */
     protected function mockCallLogEndpoint(): MockInterface
@@ -30,7 +30,7 @@ class CallLogEndpointTest extends TestCase
 
     /**
      * Mocking StoreLogRequest.
-     * 
+     *
      * @return StoreLogRequest|MockInterface
      */
     protected function mockStoreLogRequest(): MockInterface
@@ -41,7 +41,7 @@ class CallLogEndpointTest extends TestCase
 
     /**
      * Mocking LogEndpoint.
-     * 
+     *
      * @return LogEndpoint|MockInterface
      */
     protected function mockLogEndpoint(): MockInterface
@@ -52,7 +52,7 @@ class CallLogEndpointTest extends TestCase
 
     /**
      * Mocking StoreLogResponseContract.
-     * 
+     *
      * @return StoreLogResponseContract|MockInterface
      */
     protected function mockStoreLogResponseContract(): MockInterface
@@ -68,11 +68,11 @@ class CallLogEndpointTest extends TestCase
         $request = $this->mockStoreLogRequest();
         $response = $this->mockStoreLogResponseContract();
         $callLogEndpoint = $this->mockCallLogEndpoint();
-        $this->setPrivateProperty('endpoint', $endpoint, $callLogEndpoint);
+
         $this->setPrivateProperty('request', $request, $callLogEndpoint);
         $endpoint->shouldReceive('store')->once()->with($request)->andReturn($response);
 
-        $callLogEndpoint->shouldReceive('handle')->once()->withNoArgs()->passthru();
-        $this->assertInstanceOf(StoreLogResponseContract::class, $callLogEndpoint->handle());
+        $callLogEndpoint->shouldReceive('handle')->once()->with($endpoint)->passthru();
+        $this->assertInstanceOf(StoreLogResponseContract::class, $callLogEndpoint->handle($endpoint));
     }
 }

@@ -3,9 +3,7 @@
 namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit;
 
 use Mockery\MockInterface;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Henrotaym\LaravelTestSuite\TestSuite;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
@@ -18,7 +16,7 @@ class LogServiceAdapterTest extends TestCase
 
     /**
      * Mocking LogServiceAdapter.
-     * 
+     *
      * @return LogServiceAdapter|MockInterface
      */
     protected function mockLogServiceAdapter(): MockInterface

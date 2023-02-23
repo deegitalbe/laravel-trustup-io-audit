@@ -10,6 +10,7 @@ use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointCon
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\Adapters\LogServiceAdapterContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContract;
 
 class LogService implements LogServiceContract
 {
@@ -34,9 +35,8 @@ class LogService implements LogServiceContract
 
     public function storeModel(string $eventName, TrustupIoAuditRelatedModelContract $model): ?string
     {
-        /** @var StoreLogRequest */
-        $request = app()->make(StoreLogRequest::class);
-
+        /** @var StoreLogRequestContract */
+        $request = app()->make(StoreLogRequestContract::class);
         $request->setEventName($eventName)
             ->setPayload($model->getTrustupIoAuditPayload())
             ->setModelId($model->getTrustupIoAuditModelId())
@@ -47,26 +47,27 @@ class LogService implements LogServiceContract
             ->setAccountUuid($this->getAdapter()->getAccountUuid())
             ->setLoggedAt()
             ->setImpersonatedBy($this->getAdapter()->getImpersonatedBy());
-
         return  $this->storeRequest($request);
     }
 
 
     public function storeAttributes(string $eventName, array $attributes): ?string
     {
-        /** @var StoreLogRequest */
-        $request = app()->make(StoreLogRequest::class);
+        /** @var StoreLogRequestContract */
+        $request = app()->make(StoreLogRequestContract::class);
 
         $request->setEventName($eventName)->setLoggedAt()->fromArray($attributes);
-
         return  $this->storeRequest($request);
     }
 
     // dispatch job that triggers endpoint.
     public function storeRequest(StoreLogRequestContract $request): ?string
     {   // set uuid on request before calling endpoint.
+        /** @var LogStatusContract */
+        $logStatus = app()->make(LogStatusContract::class);
+        if ($logStatus->isDisabled()) return null;
         $uuid = $request->getUuid();
-        CallLogEndpoint::dispatch($this->getEndpoint(), $request);
+        CallLogEndpoint::dispatch($request);
         return $uuid;
     }
 }

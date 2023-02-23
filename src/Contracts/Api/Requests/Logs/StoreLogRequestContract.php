@@ -64,4 +64,6 @@ interface StoreLogRequestContract extends Arrayable
     public function getLoggedAt(): Carbon;
 
     public function getImpersonatedBy(): ?string;
+
+    public function fromArray(array $attributes): ?self;
 }

@@ -2,7 +2,6 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Api\Endpoints\Logs;
 
-use Carbon\Carbon;
 use Henrotaym\LaravelApiClient\Contracts\ClientContract;
 use Henrotaym\LaravelApiClient\Contracts\RequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Api\Credentials\LogCredential;
@@ -17,16 +16,22 @@ class LogEndpoint implements LogEndpointContract
 
     protected ClientContract $client;
 
-    public function __construct(ClientContract $client, LogCredential $credential, protected RequestContract $request)
+    public function __construct(ClientContract $client, LogCredential $credential)
     {
         $this->client = $client->setCredential($credential);
-        $this->request = $request;
     }
 
     public function store(StoreLogRequestContract $storeRequest): StoreLogResponseContract
     {
-        $this->request->setVerb("POST")->setUrl("logs")->addData($storeRequest->toArray());
-        $response = $this->client->try($this->request, "Cannot store log");
+        $requets = $this->newRequest();
+
+        $requets->setVerb("POST")->setUrl("logs")->addData($storeRequest->toArray());
+
+        $response = $this->client->try($requets, "Cannot store log");
+        if ($response->failed()) {
+            report($response->error());
+        }
+
         /** @var StoreLogResponseContract */
         $formated = app()->make(StoreLogResponseContract::class);
         return $formated->setResponse($response);
@@ -34,14 +39,21 @@ class LogEndpoint implements LogEndpointContract
 
     public function index(IndexLogRequestContract $indexLogRequestContract): IndexLogResponseContract
     {
+        $requets = $this->newRequest();
         // filter logs when previous specified identifiers.
-        $this->request->setVerb("GET")->setUrl("logs");
+        $requets->setVerb("GET")->setUrl("logs");
         if ($indexLogRequestContract->hasUuids()) {
-            $this->request->addQuery(['uuids' => $indexLogRequestContract->getUuids()->all()]);
+            $requets->addQuery(['uuids' => $indexLogRequestContract->getUuids()->all()]);
         }
-        $response = $this->client->try($this->request, "Cannot get logs");
+        $response = $this->client->try($requets, "Cannot get logs");
         /** @var IndexLogResponseContract */
         $formated = app()->make(IndexLogResponseContract::class);
         return $formated->setResponse($response);
+    }
+
+    protected function newRequest()
+    {
+        /** @var RequestContract */
+        return app()->make(RequestContract::class);
     }
 }
