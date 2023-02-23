@@ -14,7 +14,6 @@ use Deegitalbe\LaravelTrustupIoAudit\Api\Requests\Logs\StoreLogRequest;
 use Deegitalbe\LaravelTrustupIoAudit\Api\Responses\Logs\IndexLogResponse;
 use Deegitalbe\LaravelTrustupIoAudit\Api\Responses\Logs\StoreLogResponse;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContract;
-use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\Adapters\LogServiceAdapter;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\LogResponseContract;
@@ -38,7 +37,7 @@ class LaravelTrustupIoAuditServiceProvider extends VersionablePackageServiceProv
         $this->app->bind(LogEndpointContract::class, LogEndpoint::class);
         $this->app->bind(StoreLogResponseContract::class, StoreLogResponse::class);
         $this->app->bind(StoreLogRequestContract::class, StoreLogRequest::class);
-        $this->app->bind(LogServiceAdapterContract::class, LogServiceAdapter::class);
+        $this->app->bind(LogServiceAdapterContract::class, config("laravel-trustup-io-audit.adapter"));
         $this->app->bind(LogServiceContract::class, LogService::class);
         $this->app->bind(LogContract::class, Log::class);
         $this->app->bind(IndexLogRequestContract::class, IndexLogRequest::class);

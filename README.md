@@ -145,6 +145,16 @@ class TicketExampleResource
 
 ##
 
+## 🙇 🛠️ Adapter config publish.
+
+Overide it if necessary as said below
+
+##
+
+```shell
+sail artisan vendor:publish --provider="Deegitalbe\LaravelTrustupIoAudit\Providers\LaravelTrustupIoAuditServiceProvider" --tag="config"
+```
+
 ## 🛠️ Default Adapter config.
 
 By default the config use the package Adapter to set some attributes.
