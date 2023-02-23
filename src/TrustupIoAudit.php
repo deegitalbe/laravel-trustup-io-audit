@@ -14,7 +14,7 @@ class TrustupIoAudit extends VersionablePackage implements TrustupIoAuditContrac
     public function __construct(
         protected LogStatusContract $logStatus,
         protected LogServiceContract $logService
-    ){
+    ) {
         $this->logStatus = $logStatus;
         $this->logService = $logService;
     }
@@ -55,6 +55,6 @@ class TrustupIoAudit extends VersionablePackage implements TrustupIoAuditContrac
         if (app()->environment("staging")) return "https://staging.audit.trustup.io";
         if (app()->environment("production")) return "https://audit.trustup.io";
 
-        return env("TRUSTUP_APP_KEY", "trustup-io-audit");
+        return "trustup-io-audit";
     }
 }
