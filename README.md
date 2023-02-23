@@ -3,10 +3,10 @@
 ## Installation
 
 ```shell
-./composer install deegitalbe/laravel-trustup-io-audit
+sail composer require deegitalbe/laravel-trustup-io-audit
 ```
 
-## .env
+## .env (non-mandatory)
 
 ```shell
 TRUSTUP_IO_AUDIT_URL=
