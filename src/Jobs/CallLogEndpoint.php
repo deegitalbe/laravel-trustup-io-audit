@@ -5,10 +5,12 @@ namespace Deegitalbe\LaravelTrustupIoAudit\Jobs;
 
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Log;
 
 class CallLogEndpoint implements ShouldQueue
 {
@@ -33,6 +35,8 @@ class CallLogEndpoint implements ShouldQueue
      */
     public function handle(LogEndpointContract $endpoint)
     {
-        return $endpoint->store($this->request);
+        $response = $endpoint->store($this->request);
+        if ($response->getResponse()->failed()) throw $response->getResponse()->error();
+        return $response;
     }
 }

@@ -2,15 +2,17 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit;
 
-use Deegitalbe\LaravelTrustupIoAudit\Api\Endpoints\Logs\LogEndpoint;
-use Deegitalbe\LaravelTrustupIoAudit\Api\Requests\Logs\StoreLogRequest;
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\StoreLogResponseContract;
-use Deegitalbe\LaravelTrustupIoAudit\Jobs\CallLogEndpoint;
 use Mockery\MockInterface;
 use Henrotaym\LaravelTestSuite\TestSuite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
+use Deegitalbe\LaravelTrustupIoAudit\Jobs\CallLogEndpoint;
+use Henrotaym\LaravelApiClient\Contracts\TryResponseContract;
+use Henrotaym\LaravelApiClient\Exceptions\RequestRelatedException;
+use Deegitalbe\LaravelTrustupIoAudit\Api\Endpoints\Logs\LogEndpoint;
+use Deegitalbe\LaravelTrustupIoAudit\Api\Requests\Logs\StoreLogRequest;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\StoreLogResponseContract;
 
 class CallLogEndpointTest extends TestCase
 {
@@ -68,11 +70,50 @@ class CallLogEndpointTest extends TestCase
         $request = $this->mockStoreLogRequest();
         $response = $this->mockStoreLogResponseContract();
         $callLogEndpoint = $this->mockCallLogEndpoint();
+        $tryResponse = $this->mockThis(TryResponseContract::class);
+
 
         $this->setPrivateProperty('request', $request, $callLogEndpoint);
         $endpoint->shouldReceive('store')->once()->with($request)->andReturn($response);
+        $response->shouldReceive("getResponse")->once()->withNoArgs()->andReturn($tryResponse);
+        $tryResponse->shouldReceive("failed")->once()->withNoArgs()->andReturnFalse();
 
         $callLogEndpoint->shouldReceive('handle')->once()->with($endpoint)->passthru();
         $this->assertInstanceOf(StoreLogResponseContract::class, $callLogEndpoint->handle($endpoint));
+    }
+
+    public function test_that_if_there_is_no_uuid_it_throw_an_error()
+    {
+        $endpoint = $this->mockLogEndpoint();
+        $request = $this->mockStoreLogRequest();
+        $response = $this->mockStoreLogResponseContract();
+        $callLogEndpoint = $this->mockCallLogEndpoint();
+        $tryResponse = $this->mockThis(TryResponseContract::class);
+        $exception = $this->mockThis(RequestRelatedException::class);
+
+        $this->setPrivateProperty('request', $request, $callLogEndpoint);
+
+
+        $endpoint->shouldReceive('store')->once()->with($request)->andReturn($response);
+
+        $response->shouldReceive("getResponse")->twice()->withNoArgs()->andReturn($tryResponse);
+        $tryResponse->shouldReceive("failed")->once()->withNoArgs()->andReturnTrue();
+
+        $callLogEndpoint->shouldReceive('handle')->once()->with($endpoint)->passthru();
+
+        $tryResponse->shouldReceive("error")->once()->withNoArgs()->andThrow($exception);
+
+        try {
+            $callLogEndpoint->handle($endpoint);
+        } catch (\Throwable $th) {
+
+            // $this->expectException(RequestRelatedException::class);
+            // $this->expectExceptionMessage('Request failed.');
+            $this->assertSame($th->getMessage(), "Request failed.");
+        }
+
+        // try {
+        // } catch (\Throwable $th) {
+        // }
     }
 }
