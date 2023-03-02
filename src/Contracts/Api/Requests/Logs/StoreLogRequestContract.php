@@ -46,7 +46,7 @@ interface StoreLogRequestContract extends Arrayable
     /** @return static */
     public function setIp(): StoreLogRequestContract;
 
-    public function getIp(): ?string;
+    public function getIp(): string;
 
     public function getUuid(): string;
 

@@ -36,7 +36,7 @@ class StoreLogRequest implements StoreLogRequestContract
 
     protected string $uuid;
 
-    protected ?string $ip;
+    protected string $ip;
 
 
 
@@ -187,7 +187,7 @@ class StoreLogRequest implements StoreLogRequestContract
         return $this->impersonatedBy;
     }
 
-    public function getIp(): ?string
+    public function getIp(): string
     {
         return $this->ip;
     }
