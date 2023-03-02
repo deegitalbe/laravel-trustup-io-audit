@@ -46,7 +46,8 @@ class LogService implements LogServiceContract
             ->setAppKey($this->getAdapter()->getAppKey())
             ->setAccountUuid($this->getAdapter()->getAccountUuid())
             ->setLoggedAt()
-            ->setImpersonatedBy($this->getAdapter()->getImpersonatedBy());
+            ->setImpersonatedBy($this->getAdapter()->getImpersonatedBy())
+            ->setIp();
         return  $this->storeRequest($request);
     }
 
@@ -56,7 +57,7 @@ class LogService implements LogServiceContract
         /** @var StoreLogRequestContract */
         $request = app()->make(StoreLogRequestContract::class);
 
-        $request->setEventName($eventName)->setLoggedAt()->fromArray($attributes);
+        $request->setEventName($eventName)->setLoggedAt()->fromArray($attributes)->setIp();
         return  $this->storeRequest($request);
     }
 
