@@ -4,6 +4,7 @@ namespace Deegitalbe\LaravelTrustupIoAudit\Api\Requests\Logs;
 
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Henrotaym\LaravelTrustupIoIpClient\Facades\LaravelTrustupIoIpClientFacade;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
 
 
@@ -34,6 +35,9 @@ class StoreLogRequest implements StoreLogRequestContract
     protected array $cryptKeys;
 
     protected string $uuid;
+
+    protected string $ip;
+
 
 
 
@@ -120,6 +124,12 @@ class StoreLogRequest implements StoreLogRequestContract
         return $this;
     }
 
+    public function setIp(): StoreLogRequestContract
+    {
+        $this->ip = LaravelTrustupIoIpClientFacade::getService()->getCurrentIp();
+        return $this;
+    }
+
 
     public function getUuid(): string
     {
@@ -177,6 +187,11 @@ class StoreLogRequest implements StoreLogRequestContract
         return $this->impersonatedBy;
     }
 
+    public function getIp(): string
+    {
+        return $this->ip;
+    }
+
     public function fromArray(array $attributes): self
     {
         $this->setResponsibleId($attributes["responsible_id"] ?? null);
@@ -209,6 +224,7 @@ class StoreLogRequest implements StoreLogRequestContract
             "event_name" => $this->getEventName(),
             "logged_at" => $this->getLoggedAt(),
             "impersonated_by" => $this->getImpersonatedBy(),
+            "ip" => $this->getIp(),
         ];
     }
 }
