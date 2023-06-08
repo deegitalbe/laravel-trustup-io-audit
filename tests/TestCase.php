@@ -7,6 +7,7 @@ use Henrotaym\LaravelApiClient\Providers\ClientServiceProvider;
 use Henrotaym\LaravelPackageVersioning\Testing\VersionablePackageTestCase;
 use Deegitalbe\LaravelTrustupIoAudit\Providers\LaravelTrustupIoAuditServiceProvider;
 use Deegitalbe\LaravelTrustupIoExternalModelRelations\Providers\LaravelTrustupIoExternalModelRelationsServiceProvider;
+use Henrotaym\LaravelTrustupIoIpClient\Providers\LaravelTrustupIoIpClientServiceProvider;
 
 class TestCase extends VersionablePackageTestCase
 {
@@ -21,6 +22,7 @@ class TestCase extends VersionablePackageTestCase
         return [
             LaravelTrustupIoAuditServiceProvider::class,
             LaravelTrustupIoExternalModelRelationsServiceProvider::class,
+            LaravelTrustupIoIpClientServiceProvider::class,
             ClientServiceProvider::class,
         ];
     }

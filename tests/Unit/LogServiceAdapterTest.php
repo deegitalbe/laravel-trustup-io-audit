@@ -79,4 +79,11 @@ class LogServiceAdapterTest extends TestCase
 
         $this->assertEquals($null, $logServiceAdapter->getImpersonatedBy());
     }
+
+    public function test_that_it_does_not_fail_when_there_is_no_user_authenticated() {
+        /** @var LogServiceAdapter */
+        $adapter = $this->app->make(LogServiceAdapter::class);
+
+        $this->assertNull($adapter->getResponsibleId());
+    }
 }

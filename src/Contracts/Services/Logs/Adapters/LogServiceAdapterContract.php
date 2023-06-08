@@ -6,9 +6,9 @@ interface LogServiceAdapterContract
 {
     public function getAppKey(): string;
 
-    public function getResponsibleId(): string;
+    public function getResponsibleId(): ?string;
 
-    public function getResponsibleType(): string;
+    public function getResponsibleType(): ?string;
 
     public function getAccountUuid(): ?string;
 

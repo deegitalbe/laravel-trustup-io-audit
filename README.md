@@ -182,7 +182,7 @@ class LogServiceAdapter implements LogServiceAdapterContract
     /** Responsible identifier */
     public function getResponsibleId(): string
     {
-        return auth()->user()->id;
+        return auth()->id();
     }
 
     /** type of the responsible */

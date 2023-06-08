@@ -10,9 +10,9 @@ use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequest
 
 class StoreLogRequest implements StoreLogRequestContract
 {
-    protected string $responsibleId;
+    protected ?string $responsibleId;
 
-    protected string $responsibleType;
+    protected ?string $responsibleType;
 
     protected ?string $appKey;
 
