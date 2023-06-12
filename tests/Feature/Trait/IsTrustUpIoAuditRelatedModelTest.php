@@ -16,6 +16,9 @@ use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\StoreLogResponseContract;
+use Henrotaym\LaravelApiClient\Contracts\TryResponseContract;
+use Illuminate\Support\Facades\Bus;
 
 class IsTrustupIoAuditRelatedModelTest extends TestCase
 {
@@ -36,6 +39,7 @@ class IsTrustupIoAuditRelatedModelTest extends TestCase
 
     public function test_that_it_can_save_log_with_related_model_store_model()
     {
+
         $this->migrateUserWithoutRelations();
         $logStatus = app()->make(LogStatusContract::class);
         /** set auth user for getResponsible id  */
@@ -43,12 +47,15 @@ class IsTrustupIoAuditRelatedModelTest extends TestCase
         // Http::fake();
 
         /** Create User */
-        $this->be(new User(["id" => 2]));
         $endpoint = $this->mockThis(LogEndpoint::class);
-
+        $response = $this->mockThis(StoreLogResponseContract::class);
+        $tryResponse = $this->mockThis(TryResponseContract::class);
+        $response->shouldReceive("getResponse")->once()->andReturn($tryResponse);
+        $tryResponse->shouldReceive("failed")->once()->andReturnFalse();
         $endpoint->shouldReceive("store")->withArgs(function (StoreLogRequestContract $storeLogRequest) {
             return $storeLogRequest->getModelId() === 'test' && $storeLogRequest->getModelType() === "deegitalbe-laraveltrustupioaudit-tests-unit-models-user";
-        })->once();
+        })->once()->andReturn($response);
+        // $response->shouldReceive()
         $user = $this->createUserWithoutRelation();
     }
 
@@ -70,9 +77,13 @@ class IsTrustupIoAuditRelatedModelTest extends TestCase
         // Http::fake();
 
         $endpoint = $this->mockThis(LogEndpointContract::class);
+        $response = $this->mockThis(StoreLogResponseContract::class);
+        $tryResponse = $this->mockThis(TryResponseContract::class);
+        $response->shouldReceive("getResponse")->once()->andReturn($tryResponse);
+        $tryResponse->shouldReceive("failed")->once()->andReturnFalse();
         $endpoint->shouldReceive("store")->once()->withArgs(function (StoreLogRequestContract $storeLogRequest) {
             return $storeLogRequest->getEventName() == "created" && $storeLogRequest->getAppKey() == "test-key";
-        });
+        })->once()->andReturn($response);;
 
         /** @var LogService */
         $logService = app()->make(LogService::class);

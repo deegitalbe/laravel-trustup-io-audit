@@ -107,6 +107,8 @@ class LogServiceTest extends TestCase
         $request->shouldReceive('setAccountUuid')->once()->with($str)->andReturnSelf();
         $request->shouldReceive('setImpersonatedBy')->once()->with($str)->andReturnSelf();
         $request->shouldReceive('setLoggedAt')->once()->withNoArgs()->andReturnSelf();
+        $request->shouldReceive('setIp')->once()->withNoArgs()->andReturnSelf();
+
 
         $logService->shouldReceive('getAdapter')->times(5)->withNoArgs()->andReturn($logServiceAdapater);
 
@@ -139,6 +141,8 @@ class LogServiceTest extends TestCase
         $request->shouldReceive('setEventName')->once()->with($str)->andReturnSelf();
         $request->shouldReceive('setLoggedAt')->once()->withNoArgs()->andReturnSelf();
         $request->shouldReceive('fromArray')->once()->with([])->andReturnSelf();
+        $request->shouldReceive('setIp')->once()->withNoArgs()->andReturnSelf();
+
         $logService->shouldReceive('storeRequest')->once()->with($request)->andReturn($str);
         $logService->shouldReceive('storeAttributes')->once()->with($str, [])->passthru();
 

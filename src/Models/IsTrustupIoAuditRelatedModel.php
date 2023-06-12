@@ -37,7 +37,6 @@ trait IsTrustupIoAuditRelatedModel
         /** @var LogStatusContract */
         $logStatus = app()->make(LogStatusContract::class);
         if ($logStatus->isDisabled()) return;
-
         static::observe(TrustupIoAuditRelatedObserver::class);
     }
 }

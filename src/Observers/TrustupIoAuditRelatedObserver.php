@@ -56,6 +56,7 @@ class TrustupIoAuditRelatedObserver
     protected function addTorelated(?string $uuid, TrustupIoAuditRelatedModelContract|Model $model): void
     {
         // TODO TEST // KILL EVENT TO AVOID CALLING STATIC METHOD
+
         $model->withoutEvents(function () use ($uuid, $model) {
             if (!$uuid) return;
             if (!$model instanceof TrustupIoAuditRelatedModelWithRelationsContract) return;

@@ -75,10 +75,15 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
         $this->migrateUserWithoutRelations();
         $logStatus = app()->make(LogStatusContract::class);
         $this->setPrivateProperty('isEnabledInTests', true, $logStatus);
+        $dispatcher = User::getEventDispatcher();
+        User::unsetEventDispatcher();
 
-        $this->be(new User(["id" => 2]));
         $user = $this->createUserWithoutRelation();
+
         $observer = $this->mockThis(TrustupIoAuditRelatedObserver::class);
+        User::setEventDispatcher($dispatcher);
+        parent::setUp();
+        User::boot();
 
         $observer->shouldReceive("updated")->once()->withArgs(function (TrustupIoAuditRelatedModelContract $relatedModel) {
             return $relatedModel->name === "AHHAHAHA" && $relatedModel->email === "plop" && $relatedModel->password === "plop" && $relatedModel->uuid === "test";
@@ -92,14 +97,19 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
         $this->migrateUserWithoutRelations();
         $logStatus = app()->make(LogStatusContract::class);
         $this->setPrivateProperty('isEnabledInTests', true, $logStatus);
-        $this->be(new User(["id" => 2]));
+        $dispatcher = User::getEventDispatcher();
+        User::unsetEventDispatcher();
         $user = $this->createUserWithoutRelation();
+        User::setEventDispatcher($dispatcher);
+        parent::setUp();
+        User::boot();
+
 
         $observer = $this->mockThis(TrustupIoAuditRelatedObserver::class);
         $observer->shouldReceive("deleted")->once()->withArgs(function ($relatedModel) use ($user) {
             return $relatedModel->id == $user->id;
         });
-        $deleted = User::find($user->id)->delete();
+        User::find($user->id)->delete();
     }
 
     public function test_that_observer_can_trigger_event_restored()
@@ -107,9 +117,15 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
         $this->migrateUserWithoutRelations();
         $logStatus = app()->make(LogStatusContract::class);
         $this->setPrivateProperty('isEnabledInTests', true, $logStatus);
-        $this->be(new User(["id" => 2]));
+        $dispatcher = User::getEventDispatcher();
+        User::unsetEventDispatcher();
+
         $user = $this->createUserWithoutRelation();
         $deleted = User::find($user->id)->delete();
+        User::setEventDispatcher($dispatcher);
+
+        parent::setUp();
+        User::boot();
 
         $observer = $this->mockThis(TrustupIoAuditRelatedObserver::class);
         $observer->shouldReceive("updated")->once()->withArgs(function ($relatedModel) use ($user) {
@@ -124,8 +140,13 @@ class TrustupIoAuditRelatedObserverTest extends TestCase
         $this->migrateUserWithoutRelations();
         $logStatus = app()->make(LogStatusContract::class);
         $this->setPrivateProperty('isEnabledInTests', true, $logStatus);
-        $this->be(new User(["id" => 2]));
+        $dispatcher = User::getEventDispatcher();
+        User::unsetEventDispatcher();
         $user = $this->createUserWithoutRelation();
+        User::setEventDispatcher($dispatcher);
+
+        parent::setUp();
+        User::boot();
 
         $observer = $this->mockThis(TrustupIoAuditRelatedObserver::class);
         $observer->shouldReceive("deleted")->once()->withArgs(function ($relatedModel) use ($user) {
