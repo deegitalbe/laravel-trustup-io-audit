@@ -24,23 +24,68 @@ trustup_io_audit_log_uuids
 
 ##
 
-## 🛠️ How to implements with relational model
+## 🛠️ Default utilisation
 
 ```shell
 <?php
 
-namespace App\Models;
-
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelWithRelationsContract;
-use Deegitalbe\LaravelTrustupIoAudit\Models\IsTrustupIoAuditRelatedModelWithRelations;
-use Deegitalbe\LaravelTrustupIoModelCommons\Models\AbstractModel;
-
-class TicketExample extends AbstractModel implements TrustupIoAuditRelatedModelWithRelationsContract
+class TicketExample extends AbstractModel implements TrustupIoAuditRelatedModelContract
 {
-    use IsTrustupIoAuditRelatedModelWithRelations;
+    use IsDefaultTrustupIoAuditRelatedModel;
+
+    // The trait define already all necessary methods you will need to make your logs
+    // By default it it take all attributes on your model like below 
+        # public function getTrustupIoAuditPayload(): array
+        # {
+        #     return $this->getAttributes();
+        # }
+}
+
+```
+
+##
+
+## 🛠️ You can also set your custom attributes
+
+```shell
+<?php
+
+class TicketExample extends AbstractModel implements TrustupIoAuditRelatedModelContract
+
+{
+    use IsTrustupIoAuditRelatedModel;
 
     public function getTrustupIoAuditPayload(): array
     {
+        // this will add your custom_attributes in your log payload for your current model.
+        // It needs to return en array as the return type specify.
+        return [
+            $this->custom_attributes
+            ];
+    }
+}
+
+```
+
+##
+
+## 🛠️ Default implementation with relation
+
+### Refer to [laravel-trustup-io-external-model-relation](https://github.com/deegitalbe/laravel-trustup-io-external-model-relations#readme) if you need more documentation on how relations work. Here You will have to define Necessary methods to retrieve your logs.
+
+```shell
+<?php
+
+class TicketExample extends AbstractModel implements TrustupIoAuditRelatedModelWithRelationsContract
+{
+    use IsTrustupIoAuditRelatedModelWithRelations, IsExternalModelRelatedModel;
+
+    // By default the relation name is set to trustupIoAuditLogs.
+
+    public function getTrustupIoAuditPayload(): array
+    {
+        // here you can set all attributes that you want to log for your model
+        // It needs to return en array as the return type specify.
         return $this->getAttributes();
     }
 }
@@ -49,21 +94,16 @@ class TicketExample extends AbstractModel implements TrustupIoAuditRelatedModelW
 
 ##
 
-## 🛠️ Basic implementation without relational Model
 
-### Refer to [laravel-trustup-io-external-model-relation](https://github.com/deegitalbe/laravel-trustup-io-external-model-relations#readme) if you need more documentation on how relations work.
+##
+
+## 🛠️ Custom implementation with relation
+
+### Refer to [laravel-trustup-io-external-model-relation](https://github.com/deegitalbe/laravel-trustup-io-external-model-relations#readme) if you need more documentation on how relations work. Here You will have to define Necessary methods to retrieve your logs.
+## Here you will need to prepare your model.
 
 ```shell
 <?php
-
-namespace App\Models;
-
-use Illuminate\Support\Collection;
-use Deegitalbe\LaravelTrustupIoModelCommons\Models\AbstractModel;
-use Deegitalbe\LaravelTrustupIoAudit\Models\IsTrustupIoAuditRelatedModel;
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
-use Deegitalbe\LaravelTrustupIoExternalModelRelations\Traits\Models\IsExternalModelRelatedModel;
-use Deegitalbe\LaravelTrustupIoExternalModelRelations\Contracts\Models\Relations\ExternalModelRelationContract;
 
 class TicketExample extends AbstractModel implements TrustupIoAuditRelatedModelContract
 {
@@ -99,13 +139,13 @@ class TicketExample extends AbstractModel implements TrustupIoAuditRelatedModelC
 
     public function getTrustupIoAuditPayload(): array
     {
+        // here you can set all attributes that you want to log for your model
+        // It needs to return en array as the return type specify.
         return $this->getAttributes();
     }
 }
 
 ```
-
-##
 
 ## 🛠️ Exposing your models by creating a resource
 
