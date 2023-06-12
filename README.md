@@ -34,7 +34,7 @@ class TicketExample extends AbstractModel implements TrustupIoAuditRelatedModelC
     use IsDefaultTrustupIoAuditRelatedModel;
 
     // The trait define already all necessary methods you will need to make your logs
-    // By default it it take all attributes on your model like below 
+    // By default it will take all attributes on your model like below 
         # public function getTrustupIoAuditPayload(): array
         # {
         #     return $this->getAttributes();
@@ -99,8 +99,8 @@ class TicketExample extends AbstractModel implements TrustupIoAuditRelatedModelW
 
 ## 🛠️ Custom implementation with relation
 
-### Refer to [laravel-trustup-io-external-model-relation](https://github.com/deegitalbe/laravel-trustup-io-external-model-relations#readme) if you need more documentation on how relations work. Here You will have to define Necessary methods to retrieve your logs.
-## Here you will need to prepare your model.
+### Refer to [laravel-trustup-io-external-model-relation](https://github.com/deegitalbe/laravel-trustup-io-external-model-relations#readme) if you need more documentation on how relations work.
+## Preparing your model.
 
 ```shell
 <?php
