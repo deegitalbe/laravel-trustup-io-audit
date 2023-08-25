@@ -3,6 +3,7 @@
 namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit;
 
 use Mockery\MockInterface;
+use Illuminate\Support\Facades\Config;
 use Henrotaym\LaravelTestSuite\TestSuite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
@@ -13,6 +14,9 @@ use Deegitalbe\LaravelTrustupIoAudit\Api\Endpoints\Logs\LogEndpoint;
 use Deegitalbe\LaravelTrustupIoAudit\Api\Requests\Logs\StoreLogRequest;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Responses\Logs\StoreLogResponseContract;
+use Deegitalbe\LaravelTrustupIoAudit\Exceptions\Jobs\QueueConnectionSync;
+use Deegitalbe\LaravelTrustupIoAudit\Factories\QueueConnectionSyncFactory;
+use Exception;
 
 class CallLogEndpointTest extends TestCase
 {
@@ -115,5 +119,32 @@ class CallLogEndpointTest extends TestCase
         // try {
         // } catch (\Throwable $th) {
         // }
+    }
+
+    public function test_that_it_throw_an_error_on_queue_connection_sync(){
+        $endpoint = $this->mockLogEndpoint();
+        $request = $this->mockStoreLogRequest();
+        $callLogEndpoint = $this->mockCallLogEndpoint();
+        $factory = $this->app->make(QueueConnectionSyncFactory::class);
+        $exception = $this->mockThis(Exception::class);
+
+        $this->setPrivateProperty('request', $request, $callLogEndpoint);
+        $callLogEndpoint->shouldReceive("onConnection")->once()->with('sync')->andReturnSelf();
+
+        $callLogEndpoint->shouldReceive('handle')->once()->with($endpoint)->passthru();
+
+        
+        $this->assertEquals(null, $callLogEndpoint->handle($endpoint));
+    } 
+
+    public function test_that_exception_return_the_correct_arguments(){
+        $factory = app()->make(QueueConnectionSyncFactory::class);
+        $exception = $factory->create();
+
+        $this->assertInstanceOf(QueueConnectionSync::class, $exception);
+        $this->assertEquals(
+            "wrong queue connection logging not available in sync mode",
+            $exception->getMessage()
+        );
     }
 }

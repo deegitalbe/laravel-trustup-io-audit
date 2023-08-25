@@ -83,7 +83,7 @@ class IsTrustupIoAuditRelatedModelTest extends TestCase
         $tryResponse->shouldReceive("failed")->once()->andReturnFalse();
         $endpoint->shouldReceive("store")->once()->withArgs(function (StoreLogRequestContract $storeLogRequest) {
             return $storeLogRequest->getEventName() == "created" && $storeLogRequest->getAppKey() == "test-key";
-        })->once()->andReturn($response);;
+        })->once()->andReturn($response);
 
         /** @var LogService */
         $logService = app()->make(LogService::class);

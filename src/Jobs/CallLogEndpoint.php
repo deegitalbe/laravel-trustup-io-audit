@@ -3,14 +3,17 @@
 namespace Deegitalbe\LaravelTrustupIoAudit\Jobs;
 
 
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
+use Error;
 use Exception;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Facades\Log;
+use Deegitalbe\LaravelTrustupIoAudit\Factories\QueueConnectionFactories;
+use Deegitalbe\LaravelTrustupIoAudit\Factories\QueueConnectionSyncFactory;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
 
 class CallLogEndpoint implements ShouldQueue
 {
@@ -23,8 +26,9 @@ class CallLogEndpoint implements ShouldQueue
      * @return void
      */
     protected StoreLogRequestContract $request;
-    public function __construct(StoreLogRequestContract  $request)
-    {
+
+    public function __construct(StoreLogRequestContract  $request, )
+    {   
         $this->request = $request;
     }
 
@@ -35,8 +39,12 @@ class CallLogEndpoint implements ShouldQueue
      */
     public function handle(LogEndpointContract $endpoint)
     {
+        $factory = new QueueConnectionSyncFactory();
+        if ($this->onConnection('sync')) {
+           return  report($factory->create());
+        }
         $response = $endpoint->store($this->request);
-        if ($response->getResponse()->failed()) throw $response->getResponse()->error();
+        if ($response->getResponse()->failed() ) throw $response->getResponse()->error();
         return $response;
     }
 }
