@@ -2,11 +2,13 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Observers;
 
+use Illuminate\Database\Eloquent\Model;
+use Deegitalbe\LaravelTrustupIoAudit\Factories\QueueConnectionSyncFactory;
+use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\Adapters\LogServiceAdapter;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\HasTrustupIoAuditLogRelationContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelWithRelationsContract;
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
-use Illuminate\Database\Eloquent\Model;
 
 class TrustupIoAuditRelatedObserver
 {
@@ -56,6 +58,12 @@ class TrustupIoAuditRelatedObserver
     protected function addTorelated(?string $uuid, TrustupIoAuditRelatedModelContract|Model $model): void
     {
         // TODO TEST // KILL EVENT TO AVOID CALLING STATIC METHOD
+        $adapter = app()->make(LogServiceAdapter::class);
+        $factory = new QueueConnectionSyncFactory();
+        if ($adapter->getQueueConnection() === 'sync') {
+             report($factory->create());
+             return;
+        } ;
 
         $model->withoutEvents(function () use ($uuid, $model) {
             if (!$uuid) return;

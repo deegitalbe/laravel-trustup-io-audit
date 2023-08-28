@@ -81,7 +81,7 @@ class CallLogEndpointTest extends TestCase
         $endpoint->shouldReceive('store')->once()->with($request)->andReturn($response);
         $response->shouldReceive("getResponse")->once()->withNoArgs()->andReturn($tryResponse);
         $tryResponse->shouldReceive("failed")->once()->withNoArgs()->andReturnFalse();
-
+        $callLogEndpoint->shouldReceive('onConnection')->once()->andReturn(false);
         $callLogEndpoint->shouldReceive('handle')->once()->with($endpoint)->passthru();
         $this->assertInstanceOf(StoreLogResponseContract::class, $callLogEndpoint->handle($endpoint));
     }
@@ -104,7 +104,7 @@ class CallLogEndpointTest extends TestCase
         $tryResponse->shouldReceive("failed")->once()->withNoArgs()->andReturnTrue();
 
         $callLogEndpoint->shouldReceive('handle')->once()->with($endpoint)->passthru();
-
+        $callLogEndpoint->shouldReceive('onConnection')->once()->andReturnFalse();
         $tryResponse->shouldReceive("error")->once()->withNoArgs()->andThrow($exception);
 
         try {

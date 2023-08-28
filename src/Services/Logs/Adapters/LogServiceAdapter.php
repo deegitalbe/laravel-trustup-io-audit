@@ -12,6 +12,11 @@ class LogServiceAdapter implements LogServiceAdapterContract
         return TrustupIoAudit::getConfig("app_key");
     }
 
+    public function getQueueConnection(): string
+    {
+        return env("QUEUE_CONNECTION");
+    }
+
     public function getResponsibleId(): ?string
     {
         return auth()->user()?->id;
