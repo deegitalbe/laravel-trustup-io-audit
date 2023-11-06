@@ -11,9 +11,10 @@ use Deegitalbe\LaravelTrustupIoAudit\Api\Requests\Logs\StoreLogRequest;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\Adapters\LogServiceAdapterContract;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContract;
+use Deegitalbe\LaravelTrustupIoAudit\Facades\TrustupIoAudit;
 
 class LogServiceTest extends TestCase
 {
@@ -21,7 +22,7 @@ class LogServiceTest extends TestCase
 
     /**
      * Mocking LogServiceContract.
-     * 
+     *
      * @return LogServiceContract|MockInterface
      */
     protected function mockLogServiceContract(): MockInterface
@@ -32,7 +33,7 @@ class LogServiceTest extends TestCase
 
     /**
      * Mocking LogService.
-     * 
+     *
      * @return LogService|MockInterface
      */
     protected function mockLogService(): MockInterface
@@ -43,7 +44,7 @@ class LogServiceTest extends TestCase
 
     /**
      * Mocking TrustupIoAuditRelatedModelContract.
-     * 
+     *
      * @return TrustupIoAuditRelatedModelContract|MockInterface
      */
     protected function mockTrustupIoAuditRelatedModelContract(): MockInterface
@@ -54,7 +55,7 @@ class LogServiceTest extends TestCase
 
     /**
      * Mocking LogEndpointContract.
-     * 
+     *
      * @return LogEndpointContract|MockInterface
      */
     protected function mockLogEndpointContract(): MockInterface
@@ -65,7 +66,7 @@ class LogServiceTest extends TestCase
 
     /**
      * Mocking LogServiceAdapterContract.
-     * 
+     *
      * @return LogServiceAdapterContract|MockInterface
      */
     protected function mockLogServiceAdapterContract(): MockInterface
@@ -76,7 +77,7 @@ class LogServiceTest extends TestCase
 
     /**
      * Mocking StoreLogRequest.
-     * 
+     *
      * @return StoreLogRequest|MockInterface
      */
     protected function mockLogStoreLogRequest(): MockInterface
@@ -87,6 +88,7 @@ class LogServiceTest extends TestCase
 
     public function test_that_it_can_store_a_model()
     {
+        TrustupIoAudit::mock();
         $str = "2";
         $eventName = "test_event";
 
@@ -104,6 +106,9 @@ class LogServiceTest extends TestCase
         $request->shouldReceive('setAppKey')->once()->with($str)->andReturnSelf();
         $request->shouldReceive('setAccountUuid')->once()->with($str)->andReturnSelf();
         $request->shouldReceive('setImpersonatedBy')->once()->with($str)->andReturnSelf();
+        $request->shouldReceive('setLoggedAt')->once()->withNoArgs()->andReturnSelf();
+        $request->shouldReceive('setIp')->once()->withNoArgs()->andReturnSelf();
+
 
         $logService->shouldReceive('getAdapter')->times(5)->withNoArgs()->andReturn($logServiceAdapater);
 
@@ -136,6 +141,8 @@ class LogServiceTest extends TestCase
         $request->shouldReceive('setEventName')->once()->with($str)->andReturnSelf();
         $request->shouldReceive('setLoggedAt')->once()->withNoArgs()->andReturnSelf();
         $request->shouldReceive('fromArray')->once()->with([])->andReturnSelf();
+        $request->shouldReceive('setIp')->once()->withNoArgs()->andReturnSelf();
+
         $logService->shouldReceive('storeRequest')->once()->with($request)->andReturn($str);
         $logService->shouldReceive('storeAttributes')->once()->with($str, [])->passthru();
 
@@ -147,12 +154,13 @@ class LogServiceTest extends TestCase
     public function test_that_it_can_store_request()
     {
         $str = "test";
+        TrustupIoAudit::mock();
         $logService = $this->mockLogService();
         $endpoint = $this->mockLogEndpointContract();
         $request = $this->mockLogStoreLogRequest();
 
         $request->shouldReceive('getUuid')->once()->withNoArgs()->andReturn($str);
-        $logService->shouldReceive('getEndpoint')->once()->withNoArgs()->andReturn($endpoint);
+
         $this->expectsJobs(CallLogEndpoint::class);
         $logService->shouldReceive('storeRequest')->once()->with($request)->passthru();
 

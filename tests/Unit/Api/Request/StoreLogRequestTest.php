@@ -139,6 +139,7 @@ class StoreLogRequestTest extends TestCase
         $this->setPrivateProperty('eventName', $str, $model);
         $this->setPrivateProperty('loggedAt', $carbon, $model);
         $this->setPrivateProperty('impersonatedBy', $str, $model);
+        $this->setPrivateProperty('ip', $str, $model);
 
 
         $this->assertArrayHasKey("uuid", $model->toArray());

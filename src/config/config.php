@@ -1,9 +1,8 @@
 <?php
 
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\Adapters\LogServiceAdapterContract;
+use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\Adapters\LogServiceAdapter;
 
 return [
-    /** your adapter should implement LogAdapterContract */
-    'adapter' => LogServiceAdapterContract::class,
-    'app_key' => env("TRUSTUP_APP_KEY")
+    'adapter' => LogServiceAdapter::class,
+    'app_key' => env("TRUSTUP_APP_KEY"),
 ];

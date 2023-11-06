@@ -12,7 +12,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
 use Deegitalbe\LaravelTrustupIoAudit\Models\TrustupIoLogLoadingCallback;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
-use Deegitalbe\LaravelTrustupIoAudit\Observers\TrustupIoAuditRelatedObserver;
 
 class TrustupIoLogLoadingCallbackTest extends TestCase
 {
@@ -20,7 +19,7 @@ class TrustupIoLogLoadingCallbackTest extends TestCase
 
     /**
      * Mocking TrustupIoLogLoadingCallback.
-     * 
+     *
      * @return TrustupIoLogLoadingCallback|MockInterface
      */
     protected function mockTrustupIoLogLoadingCallback(): MockInterface

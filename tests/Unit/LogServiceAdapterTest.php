@@ -3,9 +3,7 @@
 namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit;
 
 use Mockery\MockInterface;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Henrotaym\LaravelTestSuite\TestSuite;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
@@ -18,7 +16,7 @@ class LogServiceAdapterTest extends TestCase
 
     /**
      * Mocking LogServiceAdapter.
-     * 
+     *
      * @return LogServiceAdapter|MockInterface
      */
     protected function mockLogServiceAdapter(): MockInterface
@@ -80,5 +78,12 @@ class LogServiceAdapterTest extends TestCase
         $logServiceAdapter->shouldReceive('getImpersonatedBy')->once()->withNoArgs()->passthru();
 
         $this->assertEquals($null, $logServiceAdapter->getImpersonatedBy());
+    }
+
+    public function test_that_it_does_not_fail_when_there_is_no_user_authenticated() {
+        /** @var LogServiceAdapter */
+        $adapter = $this->app->make(LogServiceAdapter::class);
+
+        $this->assertNull($adapter->getResponsibleId());
     }
 }

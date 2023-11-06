@@ -43,6 +43,11 @@ interface StoreLogRequestContract extends Arrayable
     /** @return static */
     public function setUuid(?string $uuid): StoreLogRequestContract;
 
+    /** @return static */
+    public function setIp(): StoreLogRequestContract;
+
+    public function getIp(): string;
+
     public function getUuid(): string;
 
     public function getResponsibleId(): ?string;
@@ -64,4 +69,6 @@ interface StoreLogRequestContract extends Arrayable
     public function getLoggedAt(): Carbon;
 
     public function getImpersonatedBy(): ?string;
+
+    public function fromArray(array $attributes): ?self;
 }

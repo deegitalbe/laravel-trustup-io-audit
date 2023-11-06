@@ -3,6 +3,7 @@
 namespace Deegitalbe\LaravelTrustupIoAudit\Models;
 
 use Illuminate\Support\Collection;
+use Deegitalbe\LaravelTrustupIoAudit\Models\TrustupIoLogLoadingCallback;
 use Deegitalbe\LaravelTrustupIoAudit\Models\IsTrustupIoAuditRelatedModel;
 use Deegitalbe\LaravelTrustupIoExternalModelRelations\Contracts\Models\ExternalModelContract;
 use Deegitalbe\LaravelTrustupIoExternalModelRelations\Traits\Models\IsExternalModelRelatedModel;
@@ -13,6 +14,7 @@ trait IsTrustupIoAuditRelatedModelWithRelations
     use
         IsTrustupIoAuditRelatedModel,
         IsExternalModelRelatedModel;
+
 
     public function getTrustupIoAuditLogColumn(): string
     {

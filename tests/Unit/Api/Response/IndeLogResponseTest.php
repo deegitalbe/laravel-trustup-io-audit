@@ -2,9 +2,7 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Tests\Unit\Api\Response;
 
-use stdClass;
 use Mockery\MockInterface;
-use Illuminate\Http\Client\Response;
 use Henrotaym\LaravelTestSuite\TestSuite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deegitalbe\LaravelTrustupIoAudit\Tests\TestCase;
@@ -12,7 +10,6 @@ use Henrotaym\LaravelApiClient\Contracts\ResponseContract;
 use Henrotaym\LaravelApiClient\Contracts\TryResponseContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\LogContract;
 use Deegitalbe\LaravelTrustupIoAudit\Api\Responses\Logs\IndexLogResponse;
-use Deegitalbe\LaravelTrustupIoAudit\Models\Log;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
 use Illuminate\Support\Collection;
 
@@ -22,7 +19,7 @@ class IndexLogResponseTest extends TestCase
 
     /**
      * Mocking IndexLogResponse.
-     * 
+     *
      * @return IndexLogResponse|MockInterface
      */
     protected function mockIndexLogResponse(): MockInterface
@@ -34,7 +31,7 @@ class IndexLogResponseTest extends TestCase
 
     /**
      * Mocking ResponseContract.
-     * 
+     *
      * @return ResponseContract|MockInterface
      */
     protected function mockResponseContract(): MockInterface
@@ -46,7 +43,7 @@ class IndexLogResponseTest extends TestCase
 
     /**
      * Mocking LogContract.
-     * 
+     *
      * @return LogContract|MockInterface
      */
     protected function mockLogContract(): MockInterface
@@ -57,7 +54,7 @@ class IndexLogResponseTest extends TestCase
 
     /**
      * Mocking TryResponseContract.
-     * 
+     *
      * @return TryResponseContract|MockInterface
      */
     protected function mockTryResponseContract(): MockInterface
