@@ -39,10 +39,6 @@ class CallLogEndpoint implements ShouldQueue
      */
     public function handle(LogEndpointContract $endpoint)
     {
-        $factory = new QueueConnectionSyncFactory();
-        if ($this->onConnection('sync')) {
-           return  report($factory->create());
-        }
         $response = $endpoint->store($this->request);
         if ($response->getResponse()->failed() ) throw $response->getResponse()->error();
         return $response;

@@ -4,13 +4,14 @@ namespace Deegitalbe\LaravelTrustupIoAudit\Services\Logs;
 
 use Deegitalbe\LaravelTrustupIoAudit\Jobs\CallLogEndpoint;
 use Deegitalbe\LaravelTrustupIoAudit\Api\Requests\Logs\StoreLogRequest;
+use Deegitalbe\LaravelTrustupIoAudit\Factories\QueueConnectionSyncFactory;
 use Deegitalbe\LaravelTrustupIoAudit\Services\Logs\Adapters\LogServiceAdapter;
+use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogServiceContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Endpoints\Logs\LogEndpointContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Api\Requests\Logs\StoreLogRequestContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Models\TrustupIoAuditRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\Adapters\LogServiceAdapterContract;
-use Deegitalbe\LaravelTrustupIoAudit\Contracts\Services\Logs\LogStatusContract;
 
 class LogService implements LogServiceContract
 {
@@ -68,6 +69,11 @@ class LogService implements LogServiceContract
         $logStatus = app()->make(LogStatusContract::class);
         if ($logStatus->isDisabled()) return null;
         $uuid = $request->getUuid();
+        $factory = new QueueConnectionSyncFactory();
+        if (env('QUEUE_CONNECTION') !== 'redis') {
+            Log::error('queue',['is' => env('QUEUE_CONNECTION')]);
+            return  report($factory->create());
+        }
         CallLogEndpoint::dispatch($request);
         return $uuid;
     }
