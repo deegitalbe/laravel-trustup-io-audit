@@ -2,6 +2,7 @@
 
 namespace Deegitalbe\LaravelTrustupIoAudit\Services\Logs;
 
+use Illuminate\Support\Facades\Log;
 use Deegitalbe\LaravelTrustupIoAudit\Jobs\CallLogEndpoint;
 use Deegitalbe\LaravelTrustupIoAudit\Api\Requests\Logs\StoreLogRequest;
 use Deegitalbe\LaravelTrustupIoAudit\Factories\QueueConnectionSyncFactory;
@@ -72,7 +73,7 @@ class LogService implements LogServiceContract
         $factory = new QueueConnectionSyncFactory();
         if (env('QUEUE_CONNECTION') !== 'redis') {
             Log::error('queue',['is' => env('QUEUE_CONNECTION')]);
-            return  report($factory->create());
+           return report($factory->create());
         }
         CallLogEndpoint::dispatch($request);
         return $uuid;
